@@ -22,8 +22,6 @@
 	let client;
 	let displayHeight;
 	let displayWidth;
-	let token;
-
 
 	async function loadPage() {
 		try {
@@ -33,7 +31,7 @@
 				console.log(response.status);
 				location.assign('/');
 			}
-			token = await response.text();
+			const token = await response.text();
 
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
@@ -70,7 +68,10 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + displayHeight);
+			client
+				.getDisplay()
+				.resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
+			client.getDisplay().flush();
 		}
 	}}
 />
