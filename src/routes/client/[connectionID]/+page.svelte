@@ -32,6 +32,9 @@
 	async function loadPage() {
 		origHeight = displayHeight - 50;
 		origWidth = displayWidth;
+		console.log(origHeight);
+		console.log(origWidth);
+
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
 
@@ -76,6 +79,8 @@
 	bind:innerWidth={displayWidth}
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
+		console.log(origHeight, displayHeight, displayWidth / origWidth);
+		console.log(origWidth, displayWidth,  displayHeight / origHeight);
 		if (loaded) {
 			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
 			client.getDisplay().scale(scale);
@@ -130,10 +135,7 @@
 	</div>
 </div>
 
-<div
-	id="display"
-	class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center"
->
+<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center">
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
 			<div class="w-full h-[calc(100vh/2-100px)]" />
