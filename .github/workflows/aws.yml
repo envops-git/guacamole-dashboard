@@ -61,7 +61,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to k8s
-        uses: kodermax/kubectl-aws-eks@master
+        uses: sergeyfilyanin/kubectl-aws-eks@master
         with:
           args: rollout restart deployment guacamole -n $KUBE_NAMESPACE
 
@@ -71,6 +71,6 @@ jobs:
 
     steps:
       - name: Check k8s deployments
-        uses: kodermax/kubectl-aws-eks@master
+        uses: sergeyfilyanin/kubectl-aws-eks@master
         with:
           args: rollout status deployment guacamole -n $KUBE_NAMESPACE --timeout=120s
