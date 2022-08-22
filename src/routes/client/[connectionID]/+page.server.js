@@ -1,7 +1,6 @@
 import cookie from 'cookie';
 import { redirect } from '@sveltejs/kit';
 import { userEffectivePermissionsGET } from '../../../lib/guacAPI/users';
-import { connectionGET, connectionParametersGET } from '../../../lib/guacAPI/connections';
 
 export async function load({ request, params }) {
   const cookies = cookie.parse((await request.headers.get('cookie')) || '');

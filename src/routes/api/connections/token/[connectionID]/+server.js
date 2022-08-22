@@ -41,7 +41,6 @@ export async function GET(event) {
       type: connection.protocol,
       settings: {
         ...connectionParams,
-        security: 'any',
         'enable-wallpaper': false,
       }
     }

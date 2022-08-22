@@ -45,12 +45,12 @@
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + (origHeight - 50));
-			client.getDisplay().scale(scale);
-			client.onerror = (error) => {
-				console.log(error.code);
-				console.log(error.message);
-				location.assign('/');
-			};
+			// client.getDisplay().scale(scale);
+			// client.onerror = (error) => {
+			// 	console.log(error.code);
+			// 	console.log(error.message);
+			// 	location.assign('/');
+			// };
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
@@ -59,15 +59,15 @@
 				// mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
-			let keyboard = new Guacamole.Keyboard(document);
+			// let keyboard = new Guacamole.Keyboard(document);
 
-			keyboard.onkeydown = function (keysym) {
-				client.sendKeyEvent(1, keysym);
-			};
+			// keyboard.onkeydown = function (keysym) {
+			// 	client.sendKeyEvent(1, keysym);
+			// };
 
-			keyboard.onkeyup = function (keysym) {
-				client.sendKeyEvent(0, keysym);
-			};
+			// keyboard.onkeyup = function (keysym) {
+			// 	client.sendKeyEvent(0, keysym);
+			// };
 			loaded = true;
 		} catch (error) {
 			console.log(error);
@@ -137,7 +137,7 @@
 
 <div
 	id="display"
-	class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center {loaded ? 'bg-black' : ''}"
+	class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center"
 >
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
