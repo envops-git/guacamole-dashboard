@@ -26,6 +26,9 @@
 	let displayHeight;
 	let displayWidth;
 
+	let initialWidth;
+	let initialHeight;
+
 	async function loadPage() {
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
@@ -40,6 +43,13 @@
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight-50));
+			initialWidth = displayWidth;
+			initialHeight = displayHeight;
+			client.onerror = (error) => {
+				console.log(error);
+				location.assign('/');
+			}
+
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 
 			mouse.onmousedown =
@@ -72,6 +82,7 @@
 	on:resize={() => {
 		if (loaded) {
 			tunnel.sendMessage('size', displayWidth, displayHeight-50);
+			client.getDisplay().scale(displayHeight/initialHeight);
 		}
 	}}
 />
