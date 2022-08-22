@@ -22,6 +22,8 @@ RUN npm ci
 
 RUN cd ..
 
+RUN ls
+
 RUN mv build ../../
 
 RUN cd ..
