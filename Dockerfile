@@ -4,36 +4,16 @@ WORKDIR /
 
 RUN mkdir temp
 
-RUN cd temp
+COPY . /temp
 
-RUN ls
+RUN npm --prefix /temp ci
 
-COPY . .
+RUN npm --prefix /temp run build
 
-RUN ls
+RUN npm --prefix /temp/build ci
 
-RUN npm ci
+RUN mv /temp/build /guac-server
 
-RUN npm run build
+RUN rm -r /temp
 
-RUN cd build
-
-RUN npm ci
-
-RUN cd ..
-
-RUN mv build /guac-server
-
-RUN cd ..
-
-RUN rm -r temp
-
-RUN cd ..
-
-RUN cd guac-server
-
-RUN pwd
-
-RUN ls
-
-CMD ["npm", "run", "start"]
+CMD ["npm","--prefix", "/guac-server", "run", "start"]
