@@ -32,7 +32,7 @@
 
 			if (!response.ok) {
 				console.log(response.status);
-				// location.assign('/');
+				location.assign('/');
 			}
 			const token = await response.text();
 
@@ -41,7 +41,8 @@
 
 			client.onstatechange = (state) => {
 				if (state == 5) {
-					location.assign('/');
+					console.log('state')
+					// location.assign('/');
 				}
 			};
 
@@ -70,7 +71,7 @@
 		} catch (error) {
 			console.log(error);
 			// alert('Something went wrong');
-			location.assign('/');
+			// location.assign('/');
 		}
 	}
 </script>
