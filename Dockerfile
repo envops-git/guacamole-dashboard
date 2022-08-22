@@ -22,10 +22,6 @@ RUN npm ci
 
 RUN cd ..
 
-RUN ls
-
-RUN pwd
-
 RUN mv build ../../guac-server
 
 RUN cd ..
@@ -37,5 +33,9 @@ RUN cd ..
 RUN rm -r server
 
 RUN cd guac-server
+
+RUN ls
+
+RUN cat package.json
 
 CMD ["npm", "run", "start"]
