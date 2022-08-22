@@ -26,6 +26,7 @@ body {
   background-color: var(--bg-color);
   min-height: screen;
   min-width: screen;
+  overflow-x: hidden;
 }
 
 input {

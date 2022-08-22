@@ -27,12 +27,12 @@
 			<div class="border-2 border-t-0 border-blue-900 p-2 rounded-b-md">
 				<div class="flex flex-col gap-1">
 					{#each connections as connection}
-						<a
-							href={`/client/${connection.identifier}`}
+						<p
+							on:click={() => location.assign(`/client/${connection.identifier}`)}
 							class="font-semibold px-1 flex items-center rounded-sm hover:cursor-pointer hover:bg-[#eeeeee]"
 						>
 							{connection.name}
-						</a>
+						</p>
 					{/each}
 				</div>
 			</div>

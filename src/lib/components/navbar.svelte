@@ -1,6 +1,7 @@
 <script>
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { sidebarVisible } from '$lib/stores.js';
+	import Sidebar from './sidebar.svelte';
 	import Icon from 'mdi-svelte';
 	import { mdiMenu, mdiTriangleSmallDown, mdiAccount, mdiLogout } from '@mdi/js';
 	import { page } from '$app/stores';
@@ -23,6 +24,15 @@
 	class="w-full shadow-md h-[50px] bg-blue-900 flex items-center px-4 justify-between border-b-2 border-white"
 	id="nav"
 >
+	{#if $sidebarVisible}
+		<div
+			transition:fly={{ x: -500, duration: 400 }}
+			class="absolute top-[50px] left-0 w-[250px] h-[calc(100vh-50px)] z-20"
+			id="sidebar"
+		>
+			<Sidebar />
+		</div>
+	{/if}
 	<div class="flex items-center">
 		{#if $page.data.userData != undefined}
 			<div
@@ -47,7 +57,7 @@
 		<button
 			bind:clientWidth={dropdownWidth}
 			on:click={() => (showDropdown = !showDropdown)}
-			class="w-fit h-[48px] hover:bg-blue-800 pl-3 pr-1 duration-100"
+			class="w-fit min-w-[120px] flex justify-center items-center h-[48px] hover:bg-blue-800 pl-3 pr-1 duration-100"
 		>
 			<div class="flex gap-1 text-white">
 				<p class="font-semibold">{$page.data.userData.username}</p>
