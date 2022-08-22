@@ -32,7 +32,7 @@
 
 			if (!response.ok) {
 				console.log(response.status);
-				location.assign('/');
+				// location.assign('/');
 			}
 			const token = await response.text();
 
