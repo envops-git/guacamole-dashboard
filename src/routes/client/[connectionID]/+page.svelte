@@ -45,8 +45,7 @@
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + (origHeight - 50));
-			// client.getDisplay().scale(scale);
-
+			client.getDisplay().scale(scale);
 			client.onerror = (error) => {
 				console.log(error.code);
 				console.log(error.message);
@@ -56,8 +55,8 @@
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
-				mouseState.x = mouseState.x * scale;
-				mouseState.y = mouseState.y * scale;
+				// mouseState.x = mouseState.x * scale;
+				// mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
 			let keyboard = new Guacamole.Keyboard(document);
