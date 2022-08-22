@@ -12,6 +12,7 @@
 	import Guacamole from 'guacamole-common-js';
 
 	export let data;
+	let loaded = false;
 
 	let toolbarVisible = false;
 	let soundEnabled = true;
