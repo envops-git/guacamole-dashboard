@@ -54,7 +54,7 @@
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 
-			mouse.onmousedown = mouse.onmouseup = (state) => guac.sendMouseState(state);
+			mouse.onmousedown = mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
 				mouseState.x = mouseState.x * scale;
 				mouseState.y = mouseState.y * scale;
