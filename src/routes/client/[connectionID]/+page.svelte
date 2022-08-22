@@ -19,7 +19,7 @@
 	let clipboardVisible = false;
 
 	let loaded = false;
-
+	let scale = 1;
 	let client;
 	let tunnel;
 
@@ -64,8 +64,8 @@
 				mouse.onmouseup =
 				mouse.onmousemove =
 					function (mouseState) {
-						mouseState.x = mouseState.x * displayWidth / initialWidth;
-						mouseState.y = mouseState.y * displayHeight / initialHeight;
+						mouseState.x = mouseState.x * scale;
+						mouseState.y = mouseState.y * scale;
 						client.sendMouseState(mouseState);
 					};
 			let keyboard = new Guacamole.Keyboard(document);
@@ -91,8 +91,9 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client.getDisplay().scale(displayWidth / initialWidth);
-			window.innerHeight = displayWidth / initialWidth;
+			scale = Math.min(displayWidth / initialWidth, displayHeight / initialHeight);
+			scale += scale / 10;
+			client.getDisplay().scale(scale);
 		}
 	}}
 />
