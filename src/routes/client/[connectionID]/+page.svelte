@@ -23,17 +23,12 @@
 	let client;
 	let tunnel;
 
-	let displayHeight;
-	let displayWidth;
-
 	let origHeight;
 	let origWidth;
-	let ratio;
 
 	async function loadPage() {
 		origHeight = window.screen.height - 50;
 		origWidth = window.screen.width;
-		ratio = origHeight/origWidth;
 		console.log(origHeight);
 		console.log(origWidth);
 		try {
@@ -53,13 +48,9 @@
 			}
 
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + ratio > 1 ? '&width=' + origWidth : '&height=' + origHeight);
-			if (ratio > 1) {
-				origHeight = client.getDisplay().getHeight();
-			} else {
-				origWidth = client.getDisplay().getWidth();
-			}
-			client.getDisplay().scale(scale);
+			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
+			// client.getDisplay().scale(scale);
+			console.log(client.getDisplay().getHeight(),client.getDisplay().getWidth());
 			
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
@@ -88,13 +79,11 @@
 </script>
 
 <svelte:window
-	bind:innerWidth={displayWidth}
-	bind:innerHeight={displayHeight}
 	on:resize={() => {
-		console.log('Original Height ' + origHeight, 'Current Height ' + displayHeight, 'Scale' + displayHeight / origHeight);
-		console.log('Original Width ' + origWidth, 'Current Width ' + displayWidth, 'Scale' + displayWidth / origWidth);
+		console.log('Original Height ' + origHeight, 'Current Height ' + window.screen.height - 50, 'Scale' + window.screen.height - 50 / origHeight);
+		console.log('Original Width ' + origWidth, 'Current Width ' + window.screen.width, 'Scale' + window.screen.width / origWidth);
 		if (loaded) {
-			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
+			scale = Math.min(window.screen.width / origWidth, window.screen.height - 50 / origHeight);
 			scale += scale / 10;
 			client.getDisplay().scale(scale);
 		}
