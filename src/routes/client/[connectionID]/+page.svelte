@@ -1,6 +1,6 @@
 <script>
-	import { onMount } from 'svelte';
 	import Icon from 'mdi-svelte';
+	import { Stretch } from 'svelte-loading-spinners';
 	import {
 		mdiVolumeHigh,
 		mdiVolumeOff,
@@ -9,32 +9,62 @@
 		mdiMicrophoneOff,
 		mdiClipboardOutline
 	} from '@mdi/js';
+	import Guacamole from 'guacamole-common-js';
 
 	export let data;
+
+	let displayHeight;
+	let displayWidth;
 
 	let toolbarVisible = false;
 	let soundEnabled = true;
 	let microphoneEnabled = false;
 	let clipboardVisible = false;
 
-	function waitForElement(id, callback) {
-		let poops = setInterval(function () {
-			if (document.getElementById(id)) {
-				clearInterval(poops);
-				callback();
-			}
-		}, 100);
-	}
-
-	onMount(() => {
-		waitForElement('connectionIFrame', () => {
-			let iframe = document.getElementById('connectionIFrame');
-			iframe.contentDocument.body.addEventListener('click', (e) => {
-				console.log(e);
-				toolbarVisible = false;
+	async function loadPage() {
+		try {
+			let searchParams = new URLSearchParams({
+				height: displayHeight,
+				width: displayWidth
 			});
-		});
-	});
+
+			const response = await fetch('/api/connections/token/' + data.connectionID + '?' + searchParams);
+
+			if (!response.ok) {
+				console.log(response.status);
+				location.assign('/');
+			}
+			const token = await response.text();
+
+			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
+			let client = new Guacamole.Client(tunnel);
+
+			document.getElementById('display').appendChild(client.getDisplay().getElement());
+			client.connect('token=' + token);
+
+			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
+
+			mouse.onmousedown =
+				mouse.onmouseup =
+				mouse.onmousemove =
+					function (mouseState) {
+						client.sendMouseState(mouseState);
+					};
+			let keyboard = new Guacamole.Keyboard(document);
+
+			keyboard.onkeydown = function (keysym) {
+				client.sendKeyEvent(1, keysym);
+			};
+
+			keyboard.onkeyup = function (keysym) {
+				client.sendKeyEvent(0, keysym);
+			};
+		} catch (error) {
+			console.log(error);
+			alert('Something went wrong');
+			location.assign('/');
+		}
+	}
 </script>
 
 <div
@@ -84,9 +114,16 @@
 	</div>
 </div>
 
-<iframe
-	id="connectionIFrame"
-	class="h-[calc(100vh-50px)] w-screen"
-	src={data.clientURL}
-	title={data.name}
-/>
+<div
+	bind:clientHeight={displayHeight}
+	bind:clientWidth={displayWidth}
+	id="display"
+	class="w-full h-[100vh-50px]"
+>
+	{#await loadPage()}
+		<div class="w-full h-fit flex flex-col justify-center items-center">
+			<div class="w-full h-[calc(100vh/2-100px)]" />
+			<Stretch size="50" color="#1E3A8A" unit="px" />
+		</div>
+	{/await}
+</div>
