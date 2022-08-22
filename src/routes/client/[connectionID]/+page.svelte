@@ -36,7 +36,7 @@
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + displayHeight);
+			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight-50));
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 
 			mouse.onmousedown =
@@ -68,7 +68,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client.sendSize(displayWidth, displayHeight)
+			client.sendSize(displayWidth, displayHeight-50)
 		}
 	}}
 />
