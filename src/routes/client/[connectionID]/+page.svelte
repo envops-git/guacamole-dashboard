@@ -22,6 +22,8 @@
 	let client;
 	let displayHeight;
 	let displayWidth;
+	let token;
+
 
 	async function loadPage() {
 		try {
@@ -31,14 +33,12 @@
 				console.log(response.status);
 				location.assign('/');
 			}
-			const token = await response.text();
+			token = await response.text();
 
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
-			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token);
-
+			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + displayHeight);
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 
 			mouse.onmousedown =
@@ -70,10 +70,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client
-				.getDisplay()
-				.resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
-			client.getDisplay().reset(client.getDisplay().getDefaultLayer());
+			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + displayHeight);
 		}
 	}}
 />
