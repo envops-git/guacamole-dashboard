@@ -13,21 +13,17 @@
 
 	export let data;
 
-	let displayHeight;
-	let displayWidth;
-
 	let toolbarVisible = false;
 	let soundEnabled = true;
 	let microphoneEnabled = false;
 	let clipboardVisible = false;
 
 	async function loadPage() {
-		try {
-			let searchParams = new URLSearchParams({
-				height: displayHeight,
-				width: displayWidth
+		let searchParams = new URLSearchParams({
+				height: screenY-50,
+				width: screenX
 			});
-
+		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID + '?' + searchParams);
 
 			if (!response.ok) {
@@ -115,8 +111,6 @@
 </div>
 
 <div
-	bind:clientHeight={displayHeight}
-	bind:clientWidth={displayWidth}
 	id="display"
 	class="w-full h-[100vh-50px]"
 >

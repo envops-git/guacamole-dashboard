@@ -1,6 +1,7 @@
 import encrypt from "$lib/encrypt";
 import cookie from 'cookie';
 import { connectionGET, connectionParametersGET } from '../../../../../lib/guacAPI/connections'
+import { userEffectivePermissionsGET } from '../../../../../lib/guacAPI/users'
 
 export async function GET(event) {
   const cookies = cookie.parse((await event.request.headers.get('cookie')) || '');
