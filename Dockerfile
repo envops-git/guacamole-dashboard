@@ -2,10 +2,6 @@ FROM node:lts-bullseye
 
 WORKDIR /
 
-RUN mkdir server
-
-RUN cd server
-
 RUN mkdir temp
 
 RUN cd temp
@@ -22,7 +18,7 @@ RUN npm ci
 
 RUN cd ..
 
-RUN mv build ../../guac-server
+RUN mv build /guac-server
 
 RUN cd ..
 
@@ -30,13 +26,7 @@ RUN rm -r temp
 
 RUN cd ..
 
-RUN rm -r server
-
 RUN cd guac-server
-
-RUN ls
-
-RUN pwd
 
 RUN cat package.json
 
