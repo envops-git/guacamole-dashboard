@@ -16,6 +16,7 @@
     "mdi-svelte": "^1.1.2",
     "svelte-loading-spinners": "^0.1.7",
     "devalue": "^2.0.1",
-    "set-cookie-parser": "^2.5.1"
+    "set-cookie-parser": "^2.5.1",
+    "guacamole-common-js": "^1.4.0-a"
   }
 }

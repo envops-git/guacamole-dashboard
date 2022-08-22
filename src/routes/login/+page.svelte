@@ -2,7 +2,6 @@
 	import Icon from 'mdi-svelte';
 	import { mdiEye, mdiEyeOff } from '@mdi/js';
 	import { BarLoader } from 'svelte-loading-spinners';
-	import { page } from '$app/stores';
 
 	let showPassword = false;
 
@@ -58,7 +57,6 @@
 
 			if (response.status == 201) {
 				const user = await response.json();
-				console.log(user);
 				location.assign('/');
 			}
 		} catch (error) {
