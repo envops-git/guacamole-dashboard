@@ -71,7 +71,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			tunnel.sendMessege('size', displayWidth, displayHeight-50)
+			tunnel.sendMessage('size', displayWidth, displayHeight-50);
 		}
 	}}
 />
