@@ -6,7 +6,11 @@ RUN mkdir temp
 
 RUN cd temp
 
+RUN ls
+
 COPY . .
+
+RUN ls
 
 RUN npm ci
 
