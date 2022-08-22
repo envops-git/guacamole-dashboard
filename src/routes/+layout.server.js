@@ -3,7 +3,6 @@ import { redirect } from '@sveltejs/kit';
 import { tokensPOST } from '$lib/guacAPI/tokens';
 
 export async function load({ request, url }) {
-  console.log('Got request');
   const cookies = cookie.parse((await request.headers.get('cookie')) || '');
   if (cookies.accessToken == undefined) {
     if (url.pathname != '/login') {

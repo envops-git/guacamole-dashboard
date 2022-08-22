@@ -17,6 +17,7 @@ export async function POST(event) {
   setCookieHeaders.append('set-cookie', `dataSource=${response.data.dataSource}; Max-Age=${60 * 60 * 24 * 365 * 5}; SameSite=Strict; Path=/; HttpOnly; Secure;`);
   setCookieHeaders.append('set-cookie', `username=${response.data.username}; Max-Age=${60 * 60 * 24 * 365 * 5}; SameSite=Strict; Path=/; HttpOnly; Secure;`);
 
-  return new Response(JSON.stringify(response.data), {status: 201, headers: setCookieHeaders})
-
+  const result = new Response(JSON.stringify(response.data), {status: 201, headers: setCookieHeaders});
+  console.log(result);
+  return result
 }
