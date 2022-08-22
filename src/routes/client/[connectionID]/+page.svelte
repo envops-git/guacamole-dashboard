@@ -83,6 +83,7 @@
 		console.log('Original Width ' + origWidth, 'Current Width ' + displayWidth, 'Scale' + displayWidth / origWidth);
 		if (loaded) {
 			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
+			scale += scale / 10;
 			client.getDisplay().scale(scale);
 		}
 	}}
