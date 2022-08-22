@@ -20,6 +20,7 @@
 	function waitForElement(id, callback) {
 		let poops = setInterval(function () {
 			if (document.getElementById(id)) {
+				console.log(document.getElementById(id));
 				clearInterval(poops);
 				callback();
 			}
