@@ -24,7 +24,9 @@ RUN cd ..
 
 RUN ls
 
-RUN mv build ../../
+RUN pwd
+
+RUN mv build ../../guac-server
 
 RUN cd ..
 
@@ -32,8 +34,8 @@ RUN rm -r temp
 
 RUN cd ..
 
-RUN mv build server
+RUN rm -r server
 
-RUN cd server
+RUN cd guac-server
 
 CMD ["npm", "run", "start"]
