@@ -6,7 +6,7 @@
 	export let data;
 
 	onMount(() => {
-		let tunnel = new Guacamole.HTTPTunnel('https://test.envops.com/tunnel');
+		let tunnel = new Guacamole.WebSocketTunnel('ws://test.envops.com/tunnel');
 		let client = new Guacamole.Client(tunnel);
 
 		document.body.appendChild(client.getDisplay().getElement());

@@ -29,7 +29,6 @@
 	onMount(() => {
 		waitForElement('connectionIFrame', () => {
 			let iframe = document.getElementById('connectionIFrame');
-			console.log(iframe)
 			iframe.contentDocument.body.addEventListener('click', (e) => {
 				console.log(e);
 				toolbarVisible = false;
