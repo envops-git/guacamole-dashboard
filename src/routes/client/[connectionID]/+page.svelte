@@ -54,14 +54,12 @@
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 
-			mouse.onmousedown =
-				mouse.onmouseup =
-				mouse.onmousemove =
-					function (mouseState) {
-						mouseState.x = mouseState.x * scale;
-						mouseState.y = mouseState.y * scale;
-						client.sendMouseState(mouseState);
-					};
+			mouse.onmousedown = mouse.onmouseup = (state) => guac.sendMouseState(state);
+			mouse.onmousemove = function (mouseState) {
+				mouseState.x = mouseState.x * scale;
+				mouseState.y = mouseState.y * scale;
+				client.sendMouseState(mouseState);
+			};
 			let keyboard = new Guacamole.Keyboard(document);
 
 			keyboard.onkeydown = function (keysym) {
@@ -138,7 +136,10 @@
 	</div>
 </div>
 
-<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center {loaded ? "bg-black" : ""}">
+<div
+	id="display"
+	class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center {loaded ? 'bg-black' : ''}"
+>
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
 			<div class="w-full h-[calc(100vh/2-100px)]" />
