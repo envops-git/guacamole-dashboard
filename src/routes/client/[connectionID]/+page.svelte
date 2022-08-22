@@ -50,14 +50,14 @@
 				console.log(client.getDisplay().getHeight(), client.getDisplay().getWidth());
 			};
 
-			origHeight = (displayHeight - 50) * window.devicePixelRatio;
-			origWidth = displayWidth * window.devicePixelRatio;
+			origHeight = (displayHeight - 50) * window.devicePixelRatio * 0.9;
+			origWidth = displayWidth * window.devicePixelRatio * 0.9;
 			console.log(origHeight);
 			console.log(origWidth);
 
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
-			scale = Math.min(displayWidth / origWidth, displayHeight - 50 / origHeight);
+			scale = Math.min(displayWidth * 0.9 / origWidth, (displayHeight - 50) * 0.9 / origHeight);
 			scale += scale / 10;
 			client.getDisplay().scale(scale);
 
@@ -93,16 +93,16 @@
 	on:resize={() => {
 		console.log(
 			'Original Height ' + origHeight,
-			'Current Height ' + (displayHeight - 50),
-			'Scale' + (displayHeight - 50) / origHeight
+			'Current Height ' + (displayHeight - 50) * 0.9,
+			'Scale' + (displayHeight - 50) * 0.9 / origHeight
 		);
 		console.log(
 			'Original Width ' + origWidth,
-			'Current Width ' + displayWidth,
-			'Scale' + displayWidth / origWidth
+			'Current Width ' + displayWidth * 0.9,
+			'Scale' + displayWidth * 0.9 / origWidth
 		);
 		if (loaded) {
-			scale = Math.min(displayWidth / origWidth, displayHeight - 50 / origHeight);
+			scale = Math.min(displayWidth * 0.9 / origWidth, (displayHeight - 50) * 0.9 / origHeight);
 			scale += scale / 10;
 			client.getDisplay().scale(scale);
 		}
