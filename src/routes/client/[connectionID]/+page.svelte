@@ -30,8 +30,8 @@
 	let origWidth;
 
 	async function loadPage() {
-		origHeight = window.screen.height;
-		origWidth = window.screen.width;
+		origHeight = document.body.firstElementChild.clientHeight - 50;
+		origWidth = document.body.firstElementChild.clientWidth;
 		console.log(origHeight);
 		console.log(origWidth);
 		try {
