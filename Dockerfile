@@ -16,4 +16,6 @@ RUN mv /temp/build /guac-server
 
 RUN rm -r /temp
 
+EXPOSE 3000
+
 CMD ["npm","--prefix", "/guac-server", "run", "start"]
