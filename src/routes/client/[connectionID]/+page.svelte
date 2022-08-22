@@ -18,16 +18,11 @@
 	let microphoneEnabled = false;
 	let clipboardVisible = false;
 
-	let loaded = false;
-	let scale = 1;
 	let client;
 	let tunnel;
 
-	let displayWidth;
 	let displayHeight;
-
-	let origHeight;
-	let origWidth;
+	let displayWidth;
 
 	async function loadPage() {
 		try {
@@ -46,18 +41,14 @@
 				if (state == 5) {
 					location.assign('/');
 				}
-				console.log(state);
-				console.log(client.getDisplay().getHeight(), client.getDisplay().getWidth());
 			};
 
-			origHeight = (displayHeight - 50) * window.devicePixelRatio * 0.9;
-			origWidth = displayWidth * window.devicePixelRatio * 0.9;
-			console.log(origHeight);
-			console.log(origWidth);
+	 
+			
 
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
-			scale = Math.min(displayWidth * 0.9 / origWidth, (displayHeight - 50) * 0.9 / origHeight);
+			client.connect('token=' + token + '&width=' + (window.screen.width * window.devicePixelRatio * 0.95) + '&height=' + ((window.screen.height - 50) * window.devicePixelRatio * 0.95));
+			scale = Math.min((window.screen.width * window.devicePixelRatio * 0.95), ((window.screen.height - 50) * window.devicePixelRatio * 0.95));
 			scale += scale / 10;
 			client.getDisplay().scale(scale);
 
@@ -86,28 +77,6 @@
 		}
 	}
 </script>
-
-<svelte:window
-	bind:innerWidth={displayWidth}
-	bind:innerHeight={displayHeight}
-	on:resize={() => {
-		console.log(
-			'Original Height ' + origHeight,
-			'Current Height ' + (displayHeight - 50) * 0.9,
-			'Scale' + (displayHeight - 50) * 0.9 / origHeight
-		);
-		console.log(
-			'Original Width ' + origWidth,
-			'Current Width ' + displayWidth * 0.9,
-			'Scale' + displayWidth * 0.9 / origWidth
-		);
-		if (loaded) {
-			scale = Math.min(displayWidth * 0.9 / origWidth, (displayHeight - 50) * 0.9 / origHeight);
-			scale += scale / 10;
-			client.getDisplay().scale(scale);
-		}
-	}}
-/>
 
 <div
 	class="z-10 absolute {toolbarVisible
