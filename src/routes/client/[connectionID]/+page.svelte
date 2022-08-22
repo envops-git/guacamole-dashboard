@@ -61,7 +61,7 @@
 		} catch (error) {
 			console.log(error);
 			alert('Something went wrong');
-			location.assign('/');
+			// location.assign('/');
 		}
 	}
 </script>
