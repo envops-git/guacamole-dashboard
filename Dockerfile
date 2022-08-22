@@ -36,6 +36,8 @@ RUN cd guac-server
 
 RUN ls
 
+RUN pwd
+
 RUN cat package.json
 
 CMD ["npm", "run", "start"]
