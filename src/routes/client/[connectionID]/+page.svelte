@@ -28,10 +28,12 @@
 
 	let origHeight;
 	let origWidth;
+	let ratio;
 
 	async function loadPage() {
-		origHeight = document.body.firstElementChild.clientHeight - 50;
-		origWidth = document.body.firstElementChild.clientWidth;
+		origHeight = window.screen.height - 50;
+		origWidth = window.screen.width;
+		ratio = origHeight/origWidth;
 		console.log(origHeight);
 		console.log(origWidth);
 		try {
@@ -46,9 +48,19 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 
+			client.onstatechange = (state) => {
+				console.log(state)
+			}
+
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
+			client.connect('token=' + token + ratio > 1 ? '&width=' + origWidth : '&height=' + origHeight);
+			if (ratio > 1) {
+				origHeight = client.getDisplay().getHeight();
+			} else {
+				origWidth = client.getDisplay().getWidth();
+			}
 			client.getDisplay().scale(scale);
+			
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
