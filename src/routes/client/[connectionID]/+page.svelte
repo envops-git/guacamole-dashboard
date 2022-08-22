@@ -41,9 +41,9 @@
 			client = new Guacamole.Client(tunnel);
 
 			client.onstatechange = (state) => {
+				console.log(state);
 				if (state == 5) {
-					console.log('state')
-					// location.assign('/');
+					location.assign('/');
 				}
 			};
 
@@ -72,7 +72,7 @@
 		} catch (error) {
 			console.log(error);
 			// alert('Something went wrong');
-			// location.assign('/');
+			location.assign('/');
 		}
 	}
 </script>
