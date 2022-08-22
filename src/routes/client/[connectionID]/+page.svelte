@@ -20,7 +20,6 @@
 	function waitForElement(id, callback) {
 		let poops = setInterval(function () {
 			if (document.getElementById(id)) {
-				console.log(document.getElementById(id));
 				clearInterval(poops);
 				callback();
 			}
@@ -30,7 +29,8 @@
 	onMount(() => {
 		waitForElement('connectionIFrame', () => {
 			let iframe = document.getElementById('connectionIFrame');
-			iframe.contentWindow.body.addEventListener('click', (e) => {
+			console.log(iframe)
+			iframe.contentDocument.body.addEventListener('click', (e) => {
 				console.log(e);
 				toolbarVisible = false;
 			});
