@@ -6,9 +6,9 @@ RUN mkdir server
 
 RUN cd server
 
-RUN mkdir tmp
+RUN mkdir temp
 
-RUN cd tmp
+RUN cd temp
 
 COPY . .
 
@@ -26,7 +26,7 @@ RUN mv build ../../
 
 RUN cd ..
 
-RUN rm -r tmp
+RUN rm -r temp
 
 RUN cd ..
 
