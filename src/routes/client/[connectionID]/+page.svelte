@@ -26,15 +26,12 @@
 	let displayHeight;
 	let displayWidth;
 
-	let origHeight;
-	let origWidth;
+	let origHeight = window.screen.height;
+	let origWidth = window.screen.width;
 
 	async function loadPage() {
-		origHeight = displayHeight - 50;
-		origWidth = displayWidth;
 		console.log(origHeight);
 		console.log(origWidth);
-
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
 
@@ -46,6 +43,7 @@
 
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
+
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
 			client.getDisplay().scale(scale);
@@ -80,7 +78,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		console.log(origHeight, displayHeight, displayWidth / origWidth);
-		console.log(origWidth, displayWidth,  displayHeight / origHeight);
+		console.log(origWidth, displayWidth, displayHeight / origHeight);
 		if (loaded) {
 			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
 			client.getDisplay().scale(scale);
