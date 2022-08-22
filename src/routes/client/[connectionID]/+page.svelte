@@ -28,9 +28,10 @@
 
 	let origHeight;
 	let origWidth;
+
 	async function loadPage() {
-		origHeight = (window.screen.height - 50) * window.devicePixelRatio;
-		origWidth = window.screen.width * window.devicePixelRatio;
+		origHeight = displayHeight - 50;
+		origWidth = displayWidth;
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
 
