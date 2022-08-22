@@ -46,28 +46,23 @@
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + (origHeight - 50));
 			// client.getDisplay().scale(scale);
-			// client.onerror = (error) => {
-			// 	console.log(error.code);
-			// 	console.log(error.message);
-			// 	location.assign('/');
-			// };
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
-				// mouseState.x = mouseState.x * scale;
-				// mouseState.y = mouseState.y * scale;
+				mouseState.x = mouseState.x * scale;
+				mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
-			// let keyboard = new Guacamole.Keyboard(document);
+			let keyboard = new Guacamole.Keyboard(document);
 
-			// keyboard.onkeydown = function (keysym) {
-			// 	client.sendKeyEvent(1, keysym);
-			// };
+			keyboard.onkeydown = function (keysym) {
+				client.sendKeyEvent(1, keysym);
+			};
 
-			// keyboard.onkeyup = function (keysym) {
-			// 	client.sendKeyEvent(0, keysym);
-			// };
+			keyboard.onkeyup = function (keysym) {
+				client.sendKeyEvent(0, keysym);
+			};
 			loaded = true;
 		} catch (error) {
 			console.log(error);
@@ -81,10 +76,10 @@
 	bind:innerWidth={displayWidth}
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
-		// if (loaded) {
-		// 	scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
-		// 	client.getDisplay().scale(scale);
-		// }
+		if (loaded) {
+			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
+			client.getDisplay().scale(scale);
+		}
 	}}
 />
 
