@@ -68,10 +68,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client
-				.getDisplay()
-				.resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
-			client.getDisplay().flush();
+			client.sendSize(displayWidth, displayHeight)
 		}
 	}}
 />
