@@ -17,12 +17,22 @@
 	let microphoneEnabled = false;
 	let clipboardVisible = false;
 
+	function waitForElement(id, callback) {
+		let poops = setInterval(function () {
+			if (document.getElementById(id)) {
+				clearInterval(poops);
+				callback();
+			}
+		}, 100);
+	}
+
 	onMount(() => {
-		console.log('check');
-		let iframe = document.getElementById('connectionIFrame');
-		iframe.contentWindow.body.addEventListener('click', (e) => {
-			console.log(e);
-			toolbarVisible = false;
+		waitForElement('connectionIFrame', () => {
+			let iframe = document.getElementById('connectionIFrame');
+			iframe.contentWindow.body.addEventListener('click', (e) => {
+				console.log(e);
+				toolbarVisible = false;
+			});
 		});
 	});
 </script>
