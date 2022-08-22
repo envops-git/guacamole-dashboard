@@ -45,10 +45,11 @@
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + (origHeight - 50));
-			client.getDisplay().scale(scale);
+			// client.getDisplay().scale(scale);
 
 			client.onerror = (error) => {
-				console.log(error);
+				console.log(error.code);
+				console.log(error.message);
 				location.assign('/');
 			};
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
@@ -81,10 +82,10 @@
 	bind:innerWidth={displayWidth}
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
-		if (loaded) {
-			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
-			client.getDisplay().scale(scale);
-		}
+		// if (loaded) {
+		// 	scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
+		// 	client.getDisplay().scale(scale);
+		// }
 	}}
 />
 
