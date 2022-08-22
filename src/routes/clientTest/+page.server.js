@@ -5,11 +5,11 @@ export async function load() {
     connection: {
       type: 'rdp',
       settings: {
-        hostname: 'ec2-54-87-66-8.compute-1.amazonaws.com:32424', // Replace with IP
+        hostname: 'ec2-54-87-66-8.compute-1.amazonaws.com', // Replace with IP
+        port: '32424',
         username: 'guacadmin',
         password: 'guacadmin',
-        'enable-drive': true,
-        'create-drive-path': true,
+        'disable-auth': true,
         security: 'any',
         'ignore-cert': true,
         'enable-wallpaper': false
