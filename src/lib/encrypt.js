@@ -1,8 +1,10 @@
 import crypto from 'crypto';
 
+const CRYPT_SECRET = process.env.CRYPT_SECRET;
+
 const clientOptions ={
   cypher: 'AES-256-CBC',
-  key: 'MySuperSecretKeyForParamsToken12',
+  key: CRYPT_SECRET,
 };
 
 const encrypt = (value) => {
