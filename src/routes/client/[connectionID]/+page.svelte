@@ -18,13 +18,14 @@
 	let microphoneEnabled = false;
 	let clipboardVisible = false;
 
+	let loaded = false;
+	let client;
+	$: displayHeight = screenY;
+	$: displayWidth = screenX;
+
 	async function loadPage() {
-		let searchParams = new URLSearchParams({
-				height: screenY-50,
-				width: screenX
-			});
 		try {
-			const response = await fetch('/api/connections/token/' + data.connectionID + '?' + searchParams);
+			const response = await fetch('/api/connections/token/' + data.connectionID);
 
 			if (!response.ok) {
 				console.log(response.status);
@@ -33,8 +34,8 @@
 			const token = await response.text();
 
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
-			let client = new Guacamole.Client(tunnel);
-
+			client = new Guacamole.Client(tunnel);
+			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), screenX ,screenY-50)
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token);
 
@@ -55,6 +56,7 @@
 			keyboard.onkeyup = function (keysym) {
 				client.sendKeyEvent(0, keysym);
 			};
+			loaded = true;
 		} catch (error) {
 			console.log(error);
 			alert('Something went wrong');
@@ -62,6 +64,12 @@
 		}
 	}
 </script>
+
+<svelte:window on:resize={() => {
+	if (loaded) {
+		client.getDisplay().resize(client.getDisplay().getDefaultLayer(), displayWidth ,displayHeight-50)
+	}
+}} />
 
 <div
 	class="z-10 absolute {toolbarVisible

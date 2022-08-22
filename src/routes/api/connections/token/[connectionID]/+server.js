@@ -36,9 +36,6 @@ export async function GET(event) {
 
   const connectionParams = connectionParametersResponse.data;
 
-  const width = event.params.width;
-  const height = event.params.height;
-
   let token = encrypt({
     connection: {
       type: connection.protocol,
@@ -46,8 +43,6 @@ export async function GET(event) {
         ...connectionParams,
         security: 'any',
         'enable-wallpaper': false,
-        width,
-        height
       }
     }
   });
