@@ -44,13 +44,16 @@
 			client = new Guacamole.Client(tunnel);
 
 			client.onstatechange = (state) => {
+				if (state == 5) {
+					location.assign('/');
+				}
 				console.log(state)
+				console.log(client.getDisplay().getHeight(),client.getDisplay().getWidth());
 			}
 
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + origWidth + '&height=' + origHeight);
 			// client.getDisplay().scale(scale);
-			console.log(client.getDisplay().getHeight(),client.getDisplay().getWidth());
 			
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
@@ -80,8 +83,8 @@
 
 <svelte:window
 	on:resize={() => {
-		console.log('Original Height ' + origHeight, 'Current Height ' + window.screen.height - 50, 'Scale' + window.screen.height - 50 / origHeight);
-		console.log('Original Width ' + origWidth, 'Current Width ' + window.screen.width, 'Scale' + window.screen.width / origWidth);
+		console.log('Original Height ' + origHeight, 'Current Height ' + (window.screen.height - 50), 'Scale' + ((window.screen.height - 50) / origHeight));
+		console.log('Original Width ' + origWidth, 'Current Width ' + window.screen.width, 'Scale' + (window.screen.width / origWidth));
 		if (loaded) {
 			scale = Math.min(window.screen.width / origWidth, window.screen.height - 50 / origHeight);
 			scale += scale / 10;
