@@ -26,10 +26,12 @@
 	let displayHeight;
 	let displayWidth;
 
-	let origHeight = window.screen.height;
-	let origWidth = window.screen.width;
+	let origHeight;
+	let origWidth;
 
 	async function loadPage() {
+		origHeight = window.screen.height;
+		origWidth = window.screen.width;
 		console.log(origHeight);
 		console.log(origWidth);
 		try {
@@ -77,8 +79,8 @@
 	bind:innerWidth={displayWidth}
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
-		console.log(origHeight, displayHeight, displayWidth / origWidth);
-		console.log(origWidth, displayWidth, displayHeight / origHeight);
+		console.log('Original Height ' + origHeight, 'Current Height ' + displayHeight, 'Scale' + displayHeight / origHeight);
+		console.log('Original Width ' + origWidth, 'Current Width ' + displayWidth, 'Scale' + displayWidth / origWidth);
 		if (loaded) {
 			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
 			client.getDisplay().scale(scale);
