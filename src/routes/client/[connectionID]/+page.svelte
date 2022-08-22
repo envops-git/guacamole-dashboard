@@ -26,10 +26,11 @@
 	let displayHeight;
 	let displayWidth;
 
-	let initialWidth;
-	let initialHeight;
-
+	let origHeight;
+	let origWidth;
 	async function loadPage() {
+		origHeight = (window.screen.height - 50) * window.devicePixelRatio;
+		origWidth = window.screen.width * window.devicePixelRatio;
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
 
@@ -42,19 +43,16 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect(
-				'token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight - 50)
-			);
-			initialWidth = displayWidth;
-			initialHeight = displayHeight;
+			client.connect('token=' + token + '&width=' + origWidth + '&height=' + (origHeight - 50));
+			client.getDisplay().scale(scale);
+
 			client.onerror = (error) => {
 				console.log(error);
 				location.assign('/');
 			};
-
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
-
-			mouse.onmousedown = mouse.onmouseup = (state) => client.sendMouseState(state);
+			mouse.onmouseup = (state) => client.sendMouseState(state);
+			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
 				mouseState.x = mouseState.x * scale;
 				mouseState.y = mouseState.y * scale;
@@ -83,7 +81,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			scale = Math.min(displayWidth / initialWidth, displayHeight / initialHeight);
+			scale = Math.min(displayWidth / origWidth, displayHeight / origHeight);
 			client.getDisplay().scale(scale);
 		}
 	}}
