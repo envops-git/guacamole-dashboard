@@ -13,6 +13,8 @@ export async function tokensPOST(payload) {
     body: new URLSearchParams(payload)
   });
 
+  console.log(response);
+
   if (response.ok) {
     return { status: 201, data: await response.json() };
   }
