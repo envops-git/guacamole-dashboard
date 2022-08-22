@@ -53,12 +53,6 @@
 			};
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
-			mouse.onmouseout = () => {
-				client.getDisplay().showCursor(false);
-			}
-			mouse.onmousemove = () => {
-				client.getDisplay().showCursor(true);
-			}
 
 			mouse.onmousedown =
 				mouse.onmouseup =
@@ -92,7 +86,6 @@
 	on:resize={() => {
 		if (loaded) {
 			scale = Math.min(displayWidth / initialWidth, displayHeight / initialHeight);
-			scale += scale / 10;
 			client.getDisplay().scale(scale);
 		}
 	}}
@@ -145,7 +138,7 @@
 	</div>
 </div>
 
-<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center">
+<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center {loaded ? "bg-black" : ""}">
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
 			<div class="w-full h-[calc(100vh/2-100px)]" />
