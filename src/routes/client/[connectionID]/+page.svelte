@@ -42,20 +42,30 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight-50));
+			client.connect(
+				'token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight - 50)
+			);
 			initialWidth = displayWidth;
 			initialHeight = displayHeight;
 			client.onerror = (error) => {
 				console.log(error);
 				location.assign('/');
-			}
+			};
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
+			mouse.onmouseout = () => {
+				client.getDisplay().showCursor(false);
+			}
+			mouse.onmousemove = () => {
+				client.getDisplay().showCursor(true);
+			}
 
 			mouse.onmousedown =
 				mouse.onmouseup =
 				mouse.onmousemove =
 					function (mouseState) {
+						mouseState.x = mouseState.x * displayWidth / initialWidth;
+						mouseState.y = mouseState.y * displayHeight / initialHeight;
 						client.sendMouseState(mouseState);
 					};
 			let keyboard = new Guacamole.Keyboard(document);
@@ -81,8 +91,8 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			tunnel.sendMessage('size', displayWidth, displayHeight-50);
-			client.getDisplay().scale(displayHeight/initialHeight);
+			client.getDisplay().scale(displayWidth / initialWidth);
+			window.innerHeight = displayWidth / initialWidth;
 		}
 	}}
 />
