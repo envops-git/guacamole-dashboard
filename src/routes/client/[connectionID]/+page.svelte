@@ -35,7 +35,8 @@
 
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
-			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), screenX, screenY - 50);
+			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
+			client.getDisplay().
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token);
 
@@ -73,6 +74,7 @@
 			client
 				.getDisplay()
 				.resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
+			client.getDisplay().reset(client.getDisplay().getDefaultLayer());
 		}
 	}}
 />
