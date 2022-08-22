@@ -19,7 +19,10 @@
 	let clipboardVisible = false;
 
 	let loaded = false;
+
 	let client;
+	let tunnel;
+
 	let displayHeight;
 	let displayWidth;
 
@@ -33,8 +36,9 @@
 			}
 			const token = await response.text();
 
-			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
+			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
+			client.getDisplay().onresize()
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=' + displayWidth + '&height=' + (displayHeight-50));
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
@@ -68,7 +72,7 @@
 	bind:innerHeight={displayHeight}
 	on:resize={() => {
 		if (loaded) {
-			client.sendSize(displayWidth, displayHeight-50)
+			tunnel.sendMessege('size', displayWidth, displayHeight-50)
 		}
 	}}
 />
