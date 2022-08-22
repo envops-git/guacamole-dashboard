@@ -20,8 +20,8 @@
 
 	let loaded = false;
 	let client;
-	$: displayHeight = screenY;
-	$: displayWidth = screenX;
+	let displayHeight;
+	let displayWidth;
 
 	async function loadPage() {
 		try {
@@ -35,7 +35,7 @@
 
 			let tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
-			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), screenX ,screenY-50)
+			client.getDisplay().resize(client.getDisplay().getDefaultLayer(), screenX, screenY - 50);
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token);
 
@@ -65,11 +65,17 @@
 	}
 </script>
 
-<svelte:window on:resize={() => {
-	if (loaded) {
-		client.getDisplay().resize(client.getDisplay().getDefaultLayer(), displayWidth ,displayHeight-50)
-	}
-}} />
+<svelte:window
+	bind:innerWidth={displayWidth}
+	bind:innerHeight={displayHeight}
+	on:resize={() => {
+		if (loaded) {
+			client
+				.getDisplay()
+				.resize(client.getDisplay().getDefaultLayer(), displayWidth, displayHeight - 50);
+		}
+	}}
+/>
 
 <div
 	class="z-10 absolute {toolbarVisible
@@ -118,10 +124,7 @@
 	</div>
 </div>
 
-<div
-	id="display"
-	class="w-full h-[100vh-50px]"
->
+<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center">
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
 			<div class="w-full h-[calc(100vh/2-100px)]" />
