@@ -20,7 +20,7 @@ const encrypt = (value) => {
   };
 
   let jsonstr = JSON.stringify(data);
-  let encoded = new Buffer(jsonstr).toString('base64');
+  let encoded = new Buffer.from(jsonstr).toString('base64');
   return encoded;
 };
 
