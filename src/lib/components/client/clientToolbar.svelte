@@ -14,8 +14,9 @@
 		mdiTrashCanOutline
 	} from '@mdi/js';
 
-	export let toolbarVisible = false;
 
+	export let clipboardData;
+	export let toolbarVisible = false;
 	export let soundEnabled = true;
 	export let microphoneEnabled = false;
 	export let clipboardVisible = false;
@@ -51,6 +52,7 @@
 				</button>
 				<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
 				<textarea
+					bind:value={clipboardData}
 					name="sessionClipboard"
 					id="sessionClipboard"
 					cols="40"

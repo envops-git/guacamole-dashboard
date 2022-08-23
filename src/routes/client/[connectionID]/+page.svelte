@@ -12,6 +12,8 @@
 	let innerHeight;
 	let innerWidth;
 
+	let clipboardData = '';
+
 	function getScale(height, width) {
 		let scale = 1;
 		scale = Math.min(height / 1080, width / 1920) * 0.98;
@@ -39,8 +41,7 @@
 			client.onclipboard = (clipboardStream, mimeType) => {
 				console.log(mimeType);
 				clipboardStream.onblob = (base64str) => {
-					let str = decodeURIComponent(escape(window.atob(base64str)));
-					console.log(str);
+					clipboardData = decodeURIComponent(escape(window.atob(base64str)));
 				}
 			};
 
@@ -100,5 +101,5 @@
 </div>
 
 {#if loaded}
-	<ClientToolbar bind:client />
+	<ClientToolbar bind:client bind:clipboardData />
 {/if}
