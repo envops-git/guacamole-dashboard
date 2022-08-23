@@ -78,7 +78,7 @@
 
 <svelte:window bind:innerHeight bind:innerWidth />
 
-<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center bg-black border-4 border-blue-900">
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center bg-black">
 	<div id='displayCenter' style="width:1920px; height:960px; transform:scale({scale});" class=''>
 
 	</div>
