@@ -27,7 +27,7 @@
 
 	function getScale(height, width) {
 		let scale = 1;
-		scale = Math.min(height / 1070, width / 1920);
+		scale = Math.min(height / 1070, width / 1910);
 		return scale;
 	}
 
@@ -55,8 +55,6 @@
 			};
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=1920&height=1080');
-
-			client.getDisplay().getElement().style.border="4px, solid, #700;"
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
@@ -89,7 +87,10 @@
 <div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
 	<div
 		id="displayCenter"
-		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale}); position:absolute; left:{innerWidth - 1920 * scale > 0 ? (innerWidth - 1920 * scale)/2 : '0'}px; top: 50px;"
+		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale}); position:absolute; left:{innerWidth -
+			1920 * scale > 0
+			? (innerWidth - 1920 * scale) / 2
+			: '0'}px; top: 50px;"
 		class="z-0 hover:cursor-none"
 	/>
 	{#await loadPage()}
