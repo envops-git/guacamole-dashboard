@@ -89,7 +89,7 @@
 <div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
 	<div
 		id="displayCenter"
-		style="width:1920; height:1080; transform:scale({scale},{scale});"
+		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale});"
 		class="absolute top-[50px] left-0 border-white border-4"
 	/>
 	{#await loadPage()}
