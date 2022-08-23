@@ -3,8 +3,7 @@
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
 	import guacamoleCommon from 'guacamole-common-js';
 
-	const { AudioPlayer } = guacamoleCommon;
-	const { AudioContextFactory } = guacamoleCommon;
+	const { RawAudioPlayer } = guacamoleCommon;
 
 	import Guacamole from 'guacamole-common-js';
 
@@ -67,14 +66,15 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 
-			// let audioContext = AudioContextFactory.getAudioContext()
-			// audioContext.createMediaStreamSource();
+			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
+			client.connect('token=' + token + '&width=1920&height=1080');
 
 			client.onaudio = (audioStream, mimeType) => {
 				console.log(mimeType);
-				if (AudioPlayer.isSupportedType(mimeType)) {
-					let audioPlayer = AudioPlayer.getInstance(audioStream, mimeType);
-					audioPlayer.sync()
+				if (RawAudioPlayer.isSupportedType(mimeType)) {
+					new RawAudioPlayer(audioStream, mimeType);
+				} else {
+					console.log(mimeType + ' Unsupported');
 				}
 			};
 
@@ -89,8 +89,6 @@
 					location.assign('/');
 				}
 			};
-			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=1920&height=1080');
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
