@@ -25,6 +25,8 @@
 	export let client;
 </script>
 
+
+
 <div
 	class="z-10 absolute top-[50px] {toolbarVisible
 		? 'left-0'
@@ -68,6 +70,12 @@
 				: 'bg-blue-800'}"
 		>
 			<Icon path={mdiClipboardOutline} />
+			{#if clipboardVisible}
+				<div class='relative left-16 -top-4 w-[300px] h-[300px] flex flex-col items-center gap-2'>
+					<p class='font-semibold text-[15px]'>Session Clipboard Data</p>
+					<textarea name="sessionClipboard" id="sessionClipboard" cols="20" rows="5" class='overflow-y-scroll'></textarea>
+				</div>
+			{/if}
 		</div>
 		<div
 			on:click={() => (downloadsVisible = !downloadsVisible)}
