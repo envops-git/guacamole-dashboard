@@ -25,6 +25,9 @@
 	let innerHeight;
 	let innerWidth;
 
+	let initialHeight;
+	let initialWidth;
+
 	let scale = 1;
 
 	async function loadPage() {
@@ -47,10 +50,11 @@
 				}
 			};
 
-
+			initialHeight = innerHeight - 50;
+	 		initialWidth = innerWidth;
 			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + innerWidth + '&height=' + (innerHeight - 50));
-
+			client.connect('token=' + token + '&width=' + initialWidth + '&height=' + initialHeight);
+			
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
@@ -77,7 +81,12 @@
 	}
 </script>
 
-<svelte:window bind:innerHeight bind:innerWidth />
+<svelte:window bind:innerHeight bind:innerWidth on:resize={
+	() => {
+		scale = Math.min((innerHeight - 50)/initialHeight, innerWidth/ initialWidth);
+		client.getDisplay().scale(scale);
+	}
+} />
 
 <div
 	class="z-10 absolute {toolbarVisible
