@@ -19,9 +19,11 @@
 	}
 
 	$: scale = getScale(innerHeight - 50, innerWidth);
-	
-	function disconnectClient(client){
-		client.disconnect()
+
+	function disconnectClient(client) {
+		if (client) {
+			client.disconnect();
+		}
 	}
 
 	const disconnectCurrentClient = disconnectClient(client);
@@ -40,11 +42,11 @@
 			client = new Guacamole.Client(tunnel);
 			client.onaudio = (audioStream, mimeType) => {
 				console.log(mimeType);
-			}
+			};
 
 			client.onclipboard = (clipboardStream, mimeType) => {
 				console.log(mimeType);
-			}
+			};
 
 			client.onstatechange = (state) => {
 				console.log(state);
@@ -87,7 +89,8 @@
 	<div
 		id="displayCenter"
 		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale}); position:absolute; left:{innerWidth -
-			1920 * scale > 0
+			1920 * scale >
+		0
 			? (innerWidth - 1920 * scale) / 2
 			: '0'}px; top: 50px;"
 		class="z-0 hover:cursor-none"
@@ -100,4 +103,6 @@
 	{/await}
 </div>
 
-<ClientToolbar {disconnectCurrentClient} />
+{#if loaded}
+	<ClientToolbar {disconnectCurrentClient} />
+{/if}
