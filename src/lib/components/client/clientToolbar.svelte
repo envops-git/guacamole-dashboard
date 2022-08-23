@@ -71,7 +71,7 @@
 			</button>
 			{#if clipboardVisible}
 				<div
-					class="relative left-32 top-0 w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+					class="relative left-[250px] top-0 w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 				>
 					<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
 					<textarea
