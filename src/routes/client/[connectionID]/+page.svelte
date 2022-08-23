@@ -31,7 +31,7 @@
 		return scale;
 	}
 
-	$: scale = getScale(innerHeight, innerWidth);
+	$: scale = getScale(innerHeight - 50, innerWidth);
 	$: console.log(scale);
 
 	async function loadPage() {
@@ -55,6 +55,8 @@
 			};
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=1920&height=1080');
+
+			client.getDisplay().getElement().style.border="4px, solid, #700;"
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
