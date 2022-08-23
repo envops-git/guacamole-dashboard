@@ -39,6 +39,24 @@
 		<div class="w-1 h-1 bg-white rounded-sm" />
 	</div>
 	<div class="flex flex-col w-full h-fit text-white ">
+		{#if clipboardVisible}
+		<div
+			style="top:50%"
+			class="absolute left-[190px] w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+		>
+		<button on:click={() => clipboardVisible = false} class='absolute top-3 right-3 text-gray-500 hover:text-gray-400 duration-100 font-semibold select-none'>
+			X
+		</button>
+			<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
+			<textarea
+				name="sessionClipboard"
+				id="sessionClipboard"
+				cols="40"
+				rows="10"
+				class="overflow-y-scroll"
+			/>
+		</div>
+	{/if}
 		<div
 			on:click={() => (toolbarVisible = false)}
 			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100"
@@ -66,23 +84,9 @@
 				? ''
 				: 'bg-blue-800'}"
 		>
-			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-[38px] h-[32px] flex items-center justify-center z-10">
+			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-[38px] h-[32px] flex items-center justify-center">
 				<Icon path={mdiClipboardOutline} />
 			</button>
-			{#if clipboardVisible}
-				<div
-					class="relative left-[200px] top-0 w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
-				>
-					<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
-					<textarea
-						name="sessionClipboard"
-						id="sessionClipboard"
-						cols="40"
-						rows="10"
-						class="overflow-y-scroll"
-					/>
-				</div>
-			{/if}
 		</div>
 		<div
 			on:click={() => (downloadsVisible = !downloadsVisible)}
