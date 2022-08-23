@@ -14,7 +14,6 @@
 		mdiTrashCanOutline
 	} from '@mdi/js';
 
-
 	export let clipboardData = '';
 	export let toolbarVisible = false;
 	export let soundEnabled = true;
@@ -50,12 +49,24 @@
 				>
 					X
 				</button>
-				<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
+				<p class="font-semibold text-[15px] text-gray-900 select-none w-full">
+					Session Clipboard Data
+				</p>
+				<div class="flex gap-2">
+					<div
+						class="font-semibold text-[14px] text-white select-none rounded-sm bg-gray-300 p-1 flex gap-1"
+					>
+						<p class="p-1 rounded-sm bg-gray-600">Shift</p>
+						<p class="p-1 rounded-sm bg-gray-600">+</p>
+						<p class="p-1 rounded-sm bg-gray-600">C</p>
+					</div>
+					<p class="font-semibold text-[14px] text-gray-700">to Copy</p>
+				</div>
 				<textarea
 					bind:value={clipboardData}
 					cols="40"
 					rows="10"
-					class="overflow-y-scroll"
+					class="overflow-y-scroll focus:outline-none border-2 rounded-sm border-gray-900 text-gray-900"
 				/>
 			</div>
 		{/if}

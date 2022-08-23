@@ -22,6 +22,31 @@
 
 	$: scale = getScale(innerHeight - 50, innerWidth);
 
+	function listenClipboardCopy() {
+		var keyPressed = {};
+		document.addEventListener(
+			'keydown',
+			function (e) {
+				keyPressed[e.key + e.location] = true;
+				console.log(e.key + e.location);
+				if (keyPressed.Shift1 == true && keyPressed.c == true) {
+					navigator.clipboard.writeText(clipboardData);
+					keyPressed = {}; // reset key map
+				}
+			},
+			false
+		);
+		document.addEventListener(
+			'keyup',
+			function (e) {
+				keyPressed[e.key + e.location] = false;
+
+				keyPressed = {};
+			},
+			false
+		);
+	}
+
 	async function loadPage() {
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
@@ -41,8 +66,7 @@
 			client.onclipboard = (clipboardStream, mimeType) => {
 				clipboardStream.onblob = (base64str) => {
 					clipboardData = decodeURIComponent(escape(window.atob(base64str)));
-					console.log(clipboardData);
-				}
+				};
 			};
 
 			client.onstatechange = (state) => {
@@ -71,6 +95,7 @@
 				client.sendKeyEvent(0, keysym);
 			};
 			loaded = true;
+			listenClipboardCopy();
 		} catch (error) {
 			console.log(error);
 			// alert('Something went wrong');
