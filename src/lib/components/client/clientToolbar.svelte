@@ -54,7 +54,7 @@
 				</p>
 				<div class="flex gap-2">
 					<div
-						class="font-semibold text-[14px] text-white select-none rounded-sm bg-gray-300 p-1 flex gap-1"
+						class="font-semibold text-[14px] text-white select-none rounded-sm bg-gray-300 p-1 flex gap-1 items-center"
 					>
 						<p class="p-1 pt-0 rounded-sm bg-gray-600">Shift</p>
 						<p class="p-1 pt-0 rounded-sm bg-gray-600">+</p>
