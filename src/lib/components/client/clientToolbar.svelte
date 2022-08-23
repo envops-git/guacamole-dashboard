@@ -62,18 +62,18 @@
 			<Icon path={microphoneEnabled ? mdiMicrophone : mdiMicrophoneOff} />
 		</div>
 		<div
-			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 {!clipboardVisible
+			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 duration-100 {!clipboardVisible
 				? ''
 				: 'bg-blue-800'}"
 		>
-			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-full h-full flex items-center justify-center">
+			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-full h-full flex items-center justify-center text-white">
 				<Icon path={mdiClipboardOutline} />
 			</button>
 			{#if clipboardVisible}
 				<div
-					class="relative left-32 top-0 w-[300px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 hover:cursor-default"
+					class="relative left-32 top-0 w-[500px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 				>
-					<p class="font-semibold text-[15px]">Session Clipboard Data</p>
+					<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
 					<textarea
 						name="sessionClipboard"
 						id="sessionClipboard"
