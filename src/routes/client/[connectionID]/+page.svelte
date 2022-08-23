@@ -1,7 +1,12 @@
 <script>
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
-	import Guacamole, { AudioContextFactory, AudioPlayer } from 'guacamole-common-js';
+	import guacamoleCommon from 'guacamole-common-js';
+
+	const { AudioPlayer } = guacamoleCommon;
+	const { AudioContextFactory } = guacamoleCommon;
+
+	import Guacamole from 'guacamole-common-js';
 
 	export let data;
 	let loaded = false;
