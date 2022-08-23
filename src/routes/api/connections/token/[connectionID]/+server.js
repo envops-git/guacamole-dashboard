@@ -29,9 +29,8 @@ export async function GET(event) {
   }
 
   const connection = connectionResponse.data;
-  console.log(process.env.GUAC_SERVICE_ACC_USERNAME, process.env.GUAC_SERVICE_ACC_PASSWORD);
 
-  const tokenResponse = await tokensPOST({ username: process.env.GUAC_SERVICE_ACC_USERNAME, password: process.env.GUAC_SERVICE_ACC_PASS })
+  const tokenResponse = await tokensPOST({ username: process.env.GUAC_SERVICE_ACC_USER, password: process.env.GUAC_SERVICE_ACC_PASS })
 
   if (tokenResponse.status != 200) {
     return new Response(undefined, { status: connectionResponse.status });
