@@ -34,6 +34,14 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
 
+			client.onaudio = (audioStream, mimeType) => {
+				console.log(mimeType);
+			}
+
+			client.onclipboard = (clipboardStream, mimeType) => {
+				console.log(mimeType);
+			}
+
 			client.onstatechange = (state) => {
 				console.log(state);
 				if (state == 5) {
