@@ -89,8 +89,8 @@
 <div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
 	<div
 		id="displayCenter"
-		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale});"
-		class="absolute top-[50px] left-0 z-0"
+		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale}); position:absolute; left:{innerWidth - 1920 * scale > 0 ? (innerWidth - 1920 * scale)/2 : '0'}px; top: 50px;"
+		class="z-0 hover:cursor-none"
 	/>
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
