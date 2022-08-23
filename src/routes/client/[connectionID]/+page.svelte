@@ -38,6 +38,10 @@
 
 			client.onclipboard = (clipboardStream, mimeType) => {
 				console.log(mimeType);
+				clipboardStream.onblob = (base64str) => {
+					str = decodeURIComponent(escape(window.atob(base64str)));
+					console.log(str);
+				}
 			};
 
 			client.onstatechange = (state) => {

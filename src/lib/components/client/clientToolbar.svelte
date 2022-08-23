@@ -41,8 +41,8 @@
 	<div class="flex flex-col w-full h-fit text-white ">
 		{#if clipboardVisible}
 		<div
-			style="top:50%"
-			class="absolute left-[190px] w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+			style="top:40%"
+			class="absolute left-[92px] w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 		>
 		<button on:click={() => clipboardVisible = false} class='absolute top-3 right-3 text-gray-500 hover:text-gray-400 duration-100 font-semibold select-none'>
 			X
