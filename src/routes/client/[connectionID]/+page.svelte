@@ -1,7 +1,7 @@
 <script>
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
-	import Guacamole from 'guacamole-common-js';
+	import Guacamole, { AudioPlayer } from 'guacamole-common-js';
 
 	export let data;
 	let loaded = false;
@@ -28,7 +28,10 @@
 			'keydown',
 			function (e) {
 				keyPressed[e.key + e.location] = true;
-				if ((keyPressed.Shift1 == true || keyPressed.Shift2 == true) && (keyPressed.C0 == true || keyPressed.c0 == true)) {
+				if (
+					(keyPressed.Shift1 == true || keyPressed.Shift2 == true) &&
+					(keyPressed.C0 == true || keyPressed.c0 == true)
+				) {
 					navigator.clipboard.writeText(clipboardData);
 					keyPressed = {}; // reset key map
 				}
@@ -60,6 +63,10 @@
 			client = new Guacamole.Client(tunnel);
 			client.onaudio = (audioStream, mimeType) => {
 				console.log(mimeType);
+				if (AudioPlayer.isSupportedType(mimeType)) {
+					let audioPlayer = AudioPlayer.getInstance(audioStream, mimeType);
+					audioPlayer.sync()
+				}
 			};
 
 			client.onclipboard = (clipboardStream, mimeType) => {

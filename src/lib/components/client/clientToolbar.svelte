@@ -52,7 +52,7 @@
 				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
 					Session Clipboard Data
 				</p>
-				<div class="flex gap-2">
+				<div class="flex gap-2 items-center">
 					<div
 						class="font-semibold text-[14px] text-white select-none rounded-sm bg-gray-300 p-1 flex gap-1 items-center"
 					>
