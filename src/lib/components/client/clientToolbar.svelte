@@ -66,12 +66,12 @@
 				? ''
 				: 'bg-blue-800'}"
 		>
-			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-full h-full flex items-center justify-center z-10">
+			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-[38px] h-[32px] flex items-center justify-center z-10">
 				<Icon path={mdiClipboardOutline} />
 			</button>
 			{#if clipboardVisible}
 				<div
-					class="relative left-[250px] top-0 w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+					class="relative left-[200px] top-0 w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 				>
 					<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
 					<textarea
