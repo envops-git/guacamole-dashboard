@@ -27,7 +27,7 @@
 
 	function getScale(height, width) {
 		let scale = 1;
-		scale = Math.min(height / 1070, width / 1910);
+		scale = Math.min(height / 1080, width / 1920) * 0.98;
 		return scale;
 	}
 
