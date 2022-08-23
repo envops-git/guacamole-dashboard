@@ -25,8 +25,6 @@
 	export let client;
 </script>
 
-
-
 <div
 	class="z-10 absolute top-[50px] {toolbarVisible
 		? 'left-0'
@@ -64,16 +62,25 @@
 			<Icon path={microphoneEnabled ? mdiMicrophone : mdiMicrophoneOff} />
 		</div>
 		<div
-			on:click={() => (clipboardVisible = !clipboardVisible)}
 			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 {!clipboardVisible
 				? ''
 				: 'bg-blue-800'}"
 		>
-			<Icon path={mdiClipboardOutline} />
+			<button on:click={() => (clipboardVisible = !clipboardVisible)} class="w-full h-full flex items-center justify-center">
+				<Icon path={mdiClipboardOutline} />
+			</button>
 			{#if clipboardVisible}
-				<div class='relative left-16 -top-4 w-[300px] h-[300px] flex flex-col items-center gap-2'>
-					<p class='font-semibold text-[15px]'>Session Clipboard Data</p>
-					<textarea name="sessionClipboard" id="sessionClipboard" cols="20" rows="5" class='overflow-y-scroll'></textarea>
+				<div
+					class="relative left-32 top-0 w-[300px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 hover:cursor-default"
+				>
+					<p class="font-semibold text-[15px]">Session Clipboard Data</p>
+					<textarea
+						name="sessionClipboard"
+						id="sessionClipboard"
+						cols="20"
+						rows="5"
+						class="overflow-y-scroll"
+					/>
 				</div>
 			{/if}
 		</div>
