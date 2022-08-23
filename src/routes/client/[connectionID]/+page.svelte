@@ -62,8 +62,8 @@
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
-				// mouseState.x = mouseState.x * scale;
-				// mouseState.y = mouseState.y * scale;
+				mouseState.x = mouseState.x * (1 / scale);
+				mouseState.y = mouseState.y * (1 / scale);
 				client.sendMouseState(mouseState);
 			};
 			let keyboard = new Guacamole.Keyboard(document);
@@ -89,8 +89,8 @@
 <div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
 	<div
 		id="displayCenter"
-		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale});"
-		class="absolute top-[50px] left-auto shadow-inner shadow-white"
+		style="width:1920; height:1080; transform-origin: 0px {innerWidth - 1920 * scale > 0 ? (innerWidth - 1920 * scale)/2 : '0'}px; transform:scale({scale},{scale});"
+		class="absolute top-[50px] left-0 shadow-inner shadow-white"
 	/>
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
