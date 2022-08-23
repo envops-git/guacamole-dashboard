@@ -1,6 +1,5 @@
 import { userEffectivePermissionsGET } from "../../../../lib/guacAPI/users";
-import { connectionGET, connectionParametersGET } from "../../../../lib/guacAPI/connections";
-import { getClientURL } from "../../../../lib/guacAPI/url";
+import { connectionGET } from "../../../../lib/guacAPI/connections";
 
 import cookie from 'cookie';
 
@@ -23,10 +22,7 @@ export async function GET(event) {
       if (connectionResponse.status != 200) {
         return Promise.reject(connectionResponse.status);
       }
-
-      const clientURL = getClientURL(connectionResponse.data.identifier, cookies.dataSource, cookies.accessToken);
-
-      return { ...connectionResponse.data, clientURL };
+      return { ...connectionResponse.data };
     }));
     return new Response(JSON.stringify(connections), { status: 200 });
 

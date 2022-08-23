@@ -10,7 +10,8 @@
 		mdiClipboardOutline,
 		mdiDownload,
 		mdiUpload,
-		mdiCogOutline
+		mdiCogOutline,
+mdiTrashCanOutline
 	} from '@mdi/js';
 
 	export let toolbarVisible = false;
@@ -94,7 +95,7 @@
     <div
 			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 text-red-800"
 		>
-			<Icon path={mdiCogOutline} />
+			<Icon path={mdiTrashCanOutline} />
 		</div>
 	</div>
 </div>

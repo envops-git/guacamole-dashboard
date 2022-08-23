@@ -2,6 +2,7 @@ import encrypt from "$lib/encrypt";
 import cookie from 'cookie';
 import { connectionGET, connectionParametersGET } from '../../../../../lib/guacAPI/connections'
 import { userEffectivePermissionsGET } from '../../../../../lib/guacAPI/users'
+import { tokensPOST } from '../../../../../lib/guacAPI/tokens' 
 
 export async function GET(event) {
   const cookies = cookie.parse((await event.request.headers.get('cookie')) || '');
@@ -29,7 +30,15 @@ export async function GET(event) {
 
   const connection = connectionResponse.data;
 
-  const connectionParametersResponse = await connectionParametersGET(cookies.dataSource, cookies.accessToken, connectionID);
+  const tokenResponse = await tokensPOST({ username: process.env.GUAC_SERVICE_ACC_USERNAME, password: process.env.GUAC_SERVICE_ACC_PASS })
+
+  if (tokenResponse.status != 200) {
+    return new Response(undefined, { status: connectionResponse.status });
+  }
+
+  const serviceToken = tokenResponse.data;
+
+  const connectionParametersResponse = await connectionParametersGET(cookies.dataSource, serviceToken, connectionID);
   if (connectionParametersResponse.status != 200) {
     return new Response(undefined, { status: connectionResponse.status });
   }
