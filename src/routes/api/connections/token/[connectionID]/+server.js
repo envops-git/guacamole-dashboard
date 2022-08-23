@@ -29,6 +29,7 @@ export async function GET(event) {
   }
 
   const connection = connectionResponse.data;
+  console.log(process.env.GUAC_SERVICE_ACC_USERNAME, process.env.GUAC_SERVICE_ACC_PASSWORD);
 
   const tokenResponse = await tokensPOST({ username: process.env.GUAC_SERVICE_ACC_USERNAME, password: process.env.GUAC_SERVICE_ACC_PASS })
 
@@ -37,6 +38,8 @@ export async function GET(event) {
   }
 
   const serviceToken = tokenResponse.data.authToken;
+
+  console.log(serviceToken);
 
   const connectionParametersResponse = await connectionParametersGET(cookies.dataSource, serviceToken, connectionID);
   if (connectionParametersResponse.status != 200) {
