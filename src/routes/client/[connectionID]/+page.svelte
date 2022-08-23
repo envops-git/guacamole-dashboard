@@ -78,8 +78,8 @@
 
 <svelte:window bind:innerHeight bind:innerWidth />
 
-<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center items-start bg-black overflow-hidden">
-	<div id='displayCenter' style="width:100vw; height:calc(100vh-50px); transform:scale({scale},{scale});" class='absolute top-[50px] left-0 border-white border-4'>
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
+	<div id='displayCenter' style="width:100%; height:calc(100vh-50px); transform:scale({scale},{scale});" class='absolute top-[50px] left-0 border-white border-4'>
 
 	</div>
 	{#await loadPage()}
