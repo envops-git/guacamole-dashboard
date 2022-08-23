@@ -19,7 +19,12 @@
 	}
 
 	$: scale = getScale(innerHeight - 50, innerWidth);
-	$: console.log(scale);
+	
+	function disconnectClient(client){
+		client.disconnect()
+	}
+
+	const disconnectCurrentClient = disconnectClient(client);
 
 	async function loadPage() {
 		try {
@@ -33,7 +38,6 @@
 
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
-
 			client.onaudio = (audioStream, mimeType) => {
 				console.log(mimeType);
 			}
@@ -96,4 +100,4 @@
 	{/await}
 </div>
 
-<ClientToolbar />
+<ClientToolbar {disconnectCurrentClient} />
