@@ -86,11 +86,11 @@
 
 <svelte:window bind:innerHeight bind:innerWidth />
 
-<div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden flex justify-center">
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 bg-black overflow-hidden">
 	<div
 		id="displayCenter"
 		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale});"
-		class="z-0"
+		class="relative top-[50px] left-[{innerWidth - 1920 * scale > 0 ? (innerWidth - 1920 * scale)/2 : 0}px] z-0"
 	/>
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
