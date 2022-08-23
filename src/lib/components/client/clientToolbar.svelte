@@ -15,7 +15,7 @@
 	} from '@mdi/js';
 
 
-	export let clipboardData;
+	export let clipboardData = '';
 	export let toolbarVisible = false;
 	export let soundEnabled = true;
 	export let microphoneEnabled = false;
@@ -42,7 +42,7 @@
 	<div class="flex flex-col w-full h-fit text-white ">
 		{#if clipboardVisible}
 			<div
-				class="absolute left-[78px] bottom-[16px] w-fit h-fit bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+				class="absolute left-[78px] bottom-[16px] w-fit h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
 					on:click={() => (clipboardVisible = false)}
@@ -53,8 +53,6 @@
 				<p class="font-semibold text-[15px] text-gray-900 select-none">Session Clipboard Data</p>
 				<textarea
 					bind:value={clipboardData}
-					name="sessionClipboard"
-					id="sessionClipboard"
 					cols="40"
 					rows="10"
 					class="overflow-y-scroll"

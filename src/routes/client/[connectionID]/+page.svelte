@@ -41,6 +41,7 @@
 			client.onclipboard = (clipboardStream, mimeType) => {
 				clipboardStream.onblob = (base64str) => {
 					clipboardData = decodeURIComponent(escape(window.atob(base64str)));
+					console.log(clipboardData);
 				}
 			};
 
