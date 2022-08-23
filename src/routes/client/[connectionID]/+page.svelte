@@ -25,7 +25,7 @@
 	let innerHeight;
 	let innerWidth;
 
-	$: scale = Math.min(innerHeight/1000, innerWidth/1920);
+	$: scale = Math.min(innerHeight/960, innerWidth/1920);
 	$: console.log(scale);
 
 	async function loadPage() {
@@ -48,7 +48,7 @@
 				}
 			};
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=1920&height=1000');
+			client.connect('token=' + token + '&width=1920&height=960');
 
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
@@ -78,8 +78,8 @@
 
 <svelte:window bind:innerHeight bind:innerWidth />
 
-<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex bg-black border-4 border-blue-900">
-	<div id='displayCenter' style="width:1920px; height:1000px; transform:scale({scale});" class='absolute top-auto left-auto'>
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center bg-black border-4 border-blue-900">
+	<div id='displayCenter' style="width:1920px; height:960px; transform:scale({scale});" class=''>
 
 	</div>
 	{#await loadPage()}
