@@ -25,7 +25,7 @@
 	let innerHeight;
 	let innerWidth;
 
-	$: scale = Math.min(innerHeight/800, innerWidth/1920);
+	$: scale = innerHeight > 800 ? 800/innerHeight : Math.min(innerHeight/800, innerWidth/1920);
 	$: console.log(scale);
 
 	async function loadPage() {
@@ -54,8 +54,8 @@
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
-				mouseState.x = mouseState.x * scale;
-				mouseState.y = mouseState.y * scale;
+				// mouseState.x = mouseState.x * scale;
+				// mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
 			let keyboard = new Guacamole.Keyboard(document);
