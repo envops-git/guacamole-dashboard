@@ -20,14 +20,6 @@
 
 	$: scale = getScale(innerHeight - 50, innerWidth);
 
-	function disconnectClient(client) {
-		if (client) {
-			client.disconnect();
-		}
-	}
-
-	const disconnectCurrentClient = disconnectClient(client);
-
 	async function loadPage() {
 		try {
 			const response = await fetch('/api/connections/token/' + data.connectionID);
@@ -104,5 +96,5 @@
 </div>
 
 {#if loaded}
-	<ClientToolbar {disconnectCurrentClient} />
+	<ClientToolbar bind:client />
 {/if}

@@ -22,7 +22,7 @@
 	export let downloadsVisible = false;
 	export let uploadsVisible = false;
 	export let settingsVisible = false;
-	export let disconnectCurrentClient;
+	export let client;
 </script>
 
 <div
@@ -94,7 +94,7 @@
 			<Icon path={mdiCogOutline} />
 		</div>
 		<div
-			on:click={() => disconnectCurrentClient()}
+			on:click={() => client.disconnect()}
 			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 text-red-800"
 		>
 			<Icon path={mdiTrashCanOutline} />
