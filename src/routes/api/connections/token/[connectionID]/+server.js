@@ -36,7 +36,7 @@ export async function GET(event) {
     return new Response(undefined, { status: connectionResponse.status });
   }
 
-  const serviceToken = tokenResponse.data;
+  const serviceToken = tokenResponse.data.authToken;
 
   const connectionParametersResponse = await connectionParametersGET(cookies.dataSource, serviceToken, connectionID);
   if (connectionParametersResponse.status != 200) {
