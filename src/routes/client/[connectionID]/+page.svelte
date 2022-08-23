@@ -27,7 +27,7 @@
 
 	function getScale(height, width) {
 		let scale = 1;
-		scale = Math.min(height / 1080, width / 1920);
+		scale = Math.min(height / 1070, width / 1920);
 		return scale;
 	}
 
@@ -90,7 +90,7 @@
 	<div
 		id="displayCenter"
 		style="width:1920; height:1080; transform-origin: 0px 0px; transform:scale({scale},{scale});"
-		class="relative top-[50px] left-[{innerWidth - 1920 * scale > 0 ? (innerWidth - 1920 * scale)/2 : 0}px] z-0"
+		class="absolute top-[50px] left-0 z-0"
 	/>
 	{#await loadPage()}
 		<div class="w-full h-fit flex flex-col justify-center items-center">
