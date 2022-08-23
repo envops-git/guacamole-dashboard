@@ -78,8 +78,8 @@
 
 <svelte:window bind:innerHeight bind:innerWidth />
 
-<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center bg-black">
-	<div id='displayCenter' style="width:1920px; height:960px; transform:scale({scale});" class=''>
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center items-start bg-black overflow-hidden">
+	<div id='displayCenter' style="width:1920px; height:960px; transform:scale({scale});" class='relative top-[50px] left-auto'>
 
 	</div>
 	{#await loadPage()}
@@ -91,7 +91,7 @@
 </div>
 
 <div
-	class="z-10 absolute {toolbarVisible
+	class="z-10 absolute top-[50px] {toolbarVisible
 		? 'left-0'
 		: '-left-16'} w-16 h-[calc(100vh-50px)] flex items-center justify-center border-r-2 border-white bg-blue-900 transition-all"
 >
