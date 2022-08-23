@@ -39,14 +39,12 @@
 			};
 
 			client.onclipboard = (clipboardStream, mimeType) => {
-				console.log(mimeType);
 				clipboardStream.onblob = (base64str) => {
 					clipboardData = decodeURIComponent(escape(window.atob(base64str)));
 				}
 			};
 
 			client.onstatechange = (state) => {
-				console.log(state);
 				if (state == 5) {
 					location.assign('/');
 				}
