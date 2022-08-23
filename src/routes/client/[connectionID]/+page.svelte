@@ -25,7 +25,7 @@
 	let innerHeight;
 	let innerWidth;
 
-	$: scale = innerHeight > 800 ? 800/innerHeight : Math.min(innerHeight/800, innerWidth/1920);
+	$: scale = Math.min(innerHeight/800, innerWidth/1920);
 	$: console.log(scale);
 
 	async function loadPage() {
