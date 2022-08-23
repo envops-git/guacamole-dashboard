@@ -29,7 +29,7 @@
 			function (e) {
 				keyPressed[e.key + e.location] = true;
 				console.log(e.key + e.location);
-				if (keyPressed.Shift1 == true && keyPressed.c == true) {
+				if ((keyPressed.Shift1 == true || keyPressed.Shift2 == true) && (keyPressed.C0 == true || keyPressed.c0 == true)) {
 					navigator.clipboard.writeText(clipboardData);
 					keyPressed = {}; // reset key map
 				}

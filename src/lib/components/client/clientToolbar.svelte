@@ -49,16 +49,16 @@
 				>
 					X
 				</button>
-				<p class="font-semibold text-[15px] text-gray-900 select-none w-full">
+				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
 					Session Clipboard Data
 				</p>
 				<div class="flex gap-2">
 					<div
 						class="font-semibold text-[14px] text-white select-none rounded-sm bg-gray-300 p-1 flex gap-1"
 					>
-						<p class="p-1 rounded-sm bg-gray-600">Shift</p>
-						<p class="p-1 rounded-sm bg-gray-600">+</p>
-						<p class="p-1 rounded-sm bg-gray-600">C</p>
+						<p class="p-1 pt-0 rounded-sm bg-gray-600">Shift</p>
+						<p class="p-1 pt-0 rounded-sm bg-gray-600">+</p>
+						<p class="p-1 pt-0 rounded-sm bg-gray-600">C</p>
 					</div>
 					<p class="font-semibold text-[14px] text-gray-700">to Copy</p>
 				</div>
