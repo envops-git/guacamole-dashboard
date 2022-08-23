@@ -1,7 +1,7 @@
 <script>
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
-	import Guacamole, { AudioPlayer } from 'guacamole-common-js';
+	import Guacamole, { AudioContextFactory, AudioPlayer } from 'guacamole-common-js';
 
 	export let data;
 	let loaded = false;
@@ -61,6 +61,10 @@
 
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
 			client = new Guacamole.Client(tunnel);
+
+			// let audioContext = AudioContextFactory.getAudioContext()
+			// audioContext.createMediaStreamSource();
+
 			client.onaudio = (audioStream, mimeType) => {
 				console.log(mimeType);
 				if (AudioPlayer.isSupportedType(mimeType)) {
