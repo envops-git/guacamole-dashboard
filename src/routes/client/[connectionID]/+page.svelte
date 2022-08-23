@@ -25,7 +25,7 @@
 	let innerHeight;
 	let innerWidth;
 
-	$: scale = Math.min(innerHeight/800, innerWidth/1920);
+	$: scale = Math.min([innerHeight/800, innerWidth/1920]);
 	$: console.log(scale);
 
 	async function loadPage() {
@@ -49,7 +49,6 @@
 			};
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=1920&height=800');
-
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
