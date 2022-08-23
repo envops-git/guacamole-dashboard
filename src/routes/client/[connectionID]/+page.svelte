@@ -53,6 +53,8 @@
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
+				mouseState.x = mouseState.x * scale;
+				mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
 			let keyboard = new Guacamole.Keyboard(document);
@@ -76,7 +78,7 @@
 <svelte:window bind:innerHeight bind:innerWidth />
 
 <div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center items-center bg-black border-4 border-blue-900">
-	<div id='displayCenter' style="width:1920px; height:1080px; transform:scale({scale})">
+	<div id='displayCenter' style="width:1910px; height:1070px; transform:scale({scale})">
 
 	</div>
 	{#await loadPage()}
