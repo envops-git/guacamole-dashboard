@@ -25,10 +25,7 @@
 	let innerHeight;
 	let innerWidth;
 
-	let initialHeight;
-	let initialWidth;
-
-	let scale = 1;
+	$: scale = Math.min(innerHeight/1080, innerWidth/1920);
 
 	async function loadPage() {
 		try {
@@ -49,18 +46,13 @@
 					location.assign('/');
 				}
 			};
+			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
+			client.connect('token=' + token + '&width=1920&height=1080');
 
-			initialHeight = innerHeight - 50;
-	 		initialWidth = innerWidth;
-			document.getElementById('display').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=' + initialWidth + '&height=' + initialHeight);
-			
 			let mouse = new Guacamole.Mouse(client.getDisplay().getElement());
 			mouse.onmouseup = (state) => client.sendMouseState(state);
 			mouse.onmousedown = (state) => client.sendMouseState(state);
 			mouse.onmousemove = function (mouseState) {
-				mouseState.x = mouseState.x * scale;
-				mouseState.y = mouseState.y * scale;
 				client.sendMouseState(mouseState);
 			};
 			let keyboard = new Guacamole.Keyboard(document);
@@ -81,12 +73,19 @@
 	}
 </script>
 
-<svelte:window bind:innerHeight bind:innerWidth on:resize={
-	() => {
-		scale = Math.min((innerHeight - 50)/initialHeight, innerWidth/ initialWidth);
-		client.getDisplay().scale(scale);
-	}
-} />
+<svelte:window bind:innerHeight bind:innerWidth />
+
+<div id="display" class="w-full h-[calc(100vh-50px)] z-0 flex justify-center items-center bg-black border-4 border-blue-900">
+	<div id='displayCenter' style="width:1920px; height:1080px; transform:scale({scale})">
+
+	</div>
+	{#await loadPage()}
+		<div class="w-full h-fit flex flex-col justify-center items-center">
+			<div class="w-full h-[calc(100vh/2-100px)]" />
+			<Stretch size="50" color="#1E3A8A" unit="px" />
+		</div>
+	{/await}
+</div>
 
 <div
 	class="z-10 absolute {toolbarVisible
@@ -133,13 +132,4 @@
 			<Icon path={mdiClipboardOutline} />
 		</div>
 	</div>
-</div>
-
-<div id="display" class="w-full h-[100vh-50px] z-0 hover:cursor-none flex justify-center">
-	{#await loadPage()}
-		<div class="w-full h-fit flex flex-col justify-center items-center">
-			<div class="w-full h-[calc(100vh/2-100px)]" />
-			<Stretch size="50" color="#1E3A8A" unit="px" />
-		</div>
-	{/await}
 </div>
