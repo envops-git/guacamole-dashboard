@@ -71,6 +71,19 @@
 				};
 			};
 
+			client.onrequired = (params) => {
+				console.log(params);
+			}
+
+			client.onfilesystem = (object, name) => {
+				console.log(name);
+				console.log(object);
+			}
+			
+			client.onfile = (stream, mimeType, filename) => {
+				console.log(mimeType, filename);
+			}
+
 			client.onstatechange = (state) => {
 				if (state == 5) {
 					location.assign('/');
