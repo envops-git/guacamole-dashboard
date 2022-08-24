@@ -2,11 +2,7 @@
 	import Icon from 'mdi-svelte';
 
 	import {
-		mdiVolumeHigh,
-		mdiVolumeOff,
 		mdiArrowLeft,
-		mdiMicrophone,
-		mdiMicrophoneOff,
 		mdiClipboardOutline,
 		mdiDownload,
 		mdiUpload,
@@ -16,8 +12,6 @@
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
-	export let soundEnabled = true;
-	export let microphoneEnabled = false;
 	export let clipboardVisible = false;
 	export let downloadsVisible = false;
 	export let uploadsVisible = false;
@@ -76,22 +70,7 @@
 		>
 			<Icon path={mdiArrowLeft} />
 		</div>
-		<div
-			on:click={() => (soundEnabled = !soundEnabled)}
-			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 {soundEnabled
-				? ''
-				: 'bg-blue-800'}"
-		>
-			<Icon path={soundEnabled ? mdiVolumeHigh : mdiVolumeOff} />
-		</div>
-		<div
-			on:click={() => (microphoneEnabled = !microphoneEnabled)}
-			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 hover:cursor-pointer duration-100 {microphoneEnabled
-				? ''
-				: 'bg-blue-800'}"
-		>
-			<Icon path={microphoneEnabled ? mdiMicrophone : mdiMicrophoneOff} />
-		</div>
+
 		<div
 			class="m-3 mb-0 h-8 flex justify-center items-center rounded-md hover:bg-blue-800 duration-100 {!clipboardVisible
 				? ''

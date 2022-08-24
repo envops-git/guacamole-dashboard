@@ -1,10 +1,6 @@
 <script>
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
-	import guacamoleCommon from 'guacamole-common-js';
-
-	const { RawAudioPlayer } = guacamoleCommon;
-
 	import Guacamole from 'guacamole-common-js';
 
 	export let data;
@@ -68,15 +64,6 @@
 
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect('token=' + token + '&width=1920&height=1080');
-
-			client.onaudio = (audioStream, mimeType) => {
-				console.log(mimeType);
-				if (RawAudioPlayer.isSupportedType(mimeType)) {
-					new RawAudioPlayer(audioStream, mimeType);
-				} else {
-					console.log(mimeType + ' Unsupported');
-				}
-			};
 
 			client.onclipboard = (clipboardStream, mimeType) => {
 				clipboardStream.onblob = (base64str) => {
