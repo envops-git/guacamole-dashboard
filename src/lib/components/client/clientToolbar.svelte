@@ -1,6 +1,5 @@
 <script>
 	import Icon from 'mdi-svelte';
-	import { uuid } from 'uuidv4';
 	import {
 		mdiArrowLeft,
 		mdiClipboardOutline,
@@ -33,7 +32,7 @@
 			let offset = 0;
 			let progress = 0;
 
-			fileUpload.id = uuid();
+			fileUpload.id = Crypto.randomUUID()
 			fileUpload.name = file.name;
 			fileUpload.mimetype = file.type;
 			fileUpload.length = bytes.length;
