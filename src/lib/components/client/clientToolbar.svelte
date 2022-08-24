@@ -137,12 +137,12 @@
 				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
-					on:click={() => (settingsVisible = false)}
+					on:click={() => (downloadsVisible = false)}
 					class="absolute top-3 right-3 text-gray-500 hover:text-gray-400 duration-100 font-semibold select-none"
 				>
 					X
 				</button>
-				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
+				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center pr-3">
 					Files from remote host's downloads folder will be available here
 				</p>
 			</div>
@@ -152,7 +152,7 @@
 				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
-					on:click={() => (settingsVisible = false)}
+					on:click={() => (uploadsVisible = false)}
 					class="absolute top-3 right-3 text-gray-500 hover:text-gray-400 duration-100 font-semibold select-none"
 				>
 					X
