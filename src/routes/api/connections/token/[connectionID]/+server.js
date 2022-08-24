@@ -57,6 +57,5 @@ export async function GET(event) {
       }
     }
   });
-
   return new Response(token, { status: 200 });
 }
