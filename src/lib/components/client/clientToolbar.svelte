@@ -193,7 +193,7 @@
 				</p>
 				<label id="fileInputLabel" for="fileUploadInput">
 					<div
-						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed hover:border-gray-300"
+						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed"
 					>
 						<p class="text-gray-700 font-semibold">Drag / Click here to upload files</p>
 					</div>
@@ -205,12 +205,15 @@
 						class="w-[100%] hover:cursor-pointer"
 					/>
 				</label>
-				<div class="w-full h-full overflow-y-scroll">
+				<div class="w-full h-full overflow-y-auto">
 					{#if Object.keys($uploadsInProgress).length}
 						{#each Object.keys($uploadsInProgress) as id}
 							<div class="h-[30px] w-full p-1 flex gap-3">
 								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].name}</p>
 								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].progress}%</p>
+								<button on:click={() => delete $uploadsInProgress[id]} class='absolute right-2'>
+									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90'>X</p>
+								</button>
 							</div>
 						{/each}
 					{/if}
