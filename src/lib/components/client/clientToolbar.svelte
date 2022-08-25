@@ -1,4 +1,5 @@
 <script>
+	import { writable } from 'svelte/store';
 	import Icon from 'mdi-svelte';
 	import {
 		mdiArrowLeft,
@@ -20,7 +21,7 @@
 
 	export let client;
 
-	let uploadsInProgress = {};
+	const uploadsInProgress = writable({});
 
 	let fileUploadInputValue;
 	let files = [];
@@ -31,9 +32,9 @@
 		if (!fileName || fileName == '') {
 			return;
 		}
-		let idArr = Object.keys(uploadsInProgress);
+		let idArr = Object.keys($uploadsInProgress);
 		if (idArr.length) {
-			if(idArr.filter((id) => uploadsInProgress[id].name == fileName).length){
+			if(idArr.filter((id) => $uploadsInProgress[id].name == fileName).length){
 				return;
 			};
 		}
@@ -73,7 +74,7 @@
 
 					return false;
 				}
-				uploadsInProgress[fileUpload.id] = {
+				$uploadsInProgress[fileUpload.id] = {
 					name: fileUpload.name,
 					progress: 0
 				};
@@ -92,7 +93,7 @@
 				} else {
 					progress = Math.floor((offset / bytes.length) * 100);
 				}
-				uploadsInProgress[fileUpload.id].progress = progress;
+				$uploadsInProgress[fileUpload.id].progress = progress;
 			};
 		};
 
@@ -205,8 +206,8 @@
 					/>
 				</label>
 				<div class="w-full h-full overflow-y-scroll">
-					{#if uploadsInProgress.length}
-						{#each uploadsInProgress as upload}
+					{#if $uploadsInProgress.length}
+						{#each $uploadsInProgress as upload}
 							<div class="h-[30px] w-full p-1 flex gap-3">
 								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
 								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
