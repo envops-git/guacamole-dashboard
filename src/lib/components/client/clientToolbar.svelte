@@ -8,7 +8,6 @@
 		mdiCogOutline,
 		mdiTrashCanOutline
 	} from '@mdi/js';
-import { each } from 'svelte/types/runtime/internal/ssr';
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
@@ -31,7 +30,7 @@ import { each } from 'svelte/types/runtime/internal/ssr';
 		if (!fileName || fileName == '') {
 			return;
 		}
-		uploadFile(files[files.length-1]);
+		uploadFile(files[files.length - 1]);
 	}
 
 	// function displayPath(path) {
@@ -182,7 +181,7 @@ import { each } from 'svelte/types/runtime/internal/ssr';
 					<div
 						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed"
 					>
-						<p class='text-gray-700 font-semibold'>Drag / Click here to upload files</p>
+						<p class="text-gray-700 font-semibold">Drag / Click here to upload files</p>
 					</div>
 					<input
 						id="fileUploadInput"
@@ -192,13 +191,15 @@ import { each } from 'svelte/types/runtime/internal/ssr';
 						class="w-[100%] hover:cursor-pointer"
 					/>
 				</label>
-				<div class='w-full h-full overflow-y-scroll'>
-					{#each uploadsInProgress as upload}
-					<div class='h-[30px] w-full p-1 flex gap-3'>
-						<p class='text-gray-700 text-sm font-semibold'>{upload.name}</p>
-						<p class='text-gray-700 text-sm font-semibold'>{upload.progress}%</p>
-					</div>
-					{/each}
+				<div class="w-full h-full overflow-y-scroll">
+					{#if uploadsInProgress.length}
+						{#each uploadsInProgress as upload}
+							<div class="h-[30px] w-full p-1 flex gap-3">
+								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
+								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
+							</div>
+						{/each}
+					{/if}
 				</div>
 			</div>
 		{/if}
