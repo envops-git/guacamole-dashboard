@@ -8,6 +8,7 @@
 		mdiCogOutline,
 		mdiTrashCanOutline
 	} from '@mdi/js';
+	import { bytesToBase64 } from '../../base64'
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
@@ -71,7 +72,7 @@
 					progress: 0
 				};
 				const slice = bytes.subarray(offset, offset + STREAM_BLOB_SIZE);
-				const base64 = new Buffer.from(slice).toString('base64');
+				const base64 = bytesToBase64(slice);
 
 				// Write packet
 				stream.sendBlob(base64);
