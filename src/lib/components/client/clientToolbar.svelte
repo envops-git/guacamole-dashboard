@@ -21,6 +21,14 @@
 
 	let uploadsInProgress = {};
 
+	let fileUploadInputValue;
+	let files = [];
+
+	function displayPath(path) {
+		const parts = path.split('\\');
+		return parts[parts.length - 1];
+	}
+
 	function uploadFile(file) {
 		const fileUpload = {};
 		const reader = new FileReader();
@@ -32,7 +40,7 @@
 			let offset = 0;
 			let progress = 0;
 
-			fileUpload.id = Crypto.randomUUID()
+			fileUpload.id = Crypto.randomUUID();
 			fileUpload.name = file.name;
 			fileUpload.mimetype = file.type;
 			fileUpload.length = bytes.length;
@@ -160,6 +168,20 @@
 				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
 					Upload files
 				</p>
+				<label id="fileInputLabel" for="fileUploadInput">
+					<div
+						class="border-4 w-full bg-gray-50 rounded-md px-2 font-medium border-gray-100 border-dashed"
+					>
+						<p>Drop / Click here to upload files</p>
+					</div>
+					<input
+						id="fileUploadInput"
+						bind:value={fileUploadInputValue}
+						bind:files
+						type="file"
+						class="w-[100%] hover:cursor-pointer"
+					/>
+				</label>
 			</div>
 		{/if}
 
@@ -242,3 +264,35 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	input[type='file'] {
+		position: absolute;
+		left: 0;
+		opacity: 0;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+	}
+
+	/* #excelDiv {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ccc;
+  border: 3px dotted #bebebe;
+  border-radius: 10px;
+} */
+
+	#fileInputLabel {
+		display: inline-block;
+		position: relative;
+		height: 200px;
+		width: 100%;
+	}
+</style>
