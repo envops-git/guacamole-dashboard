@@ -33,10 +33,15 @@
 		uploadFile(files[files.length - 1]);
 	}
 
-	// function displayPath(path) {
-	// 	const parts = path.split('\\');
-	// 	return parts[parts.length - 1];
-	// }
+	function makeid(length) {
+		let result = '';
+		let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let charactersLength = characters.length;
+		for (let i = 0; i < length; i++) {
+			result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		}
+		return result;
+	}
 
 	function uploadFile(file) {
 		const fileUpload = {};
@@ -49,7 +54,7 @@
 			let offset = 0;
 			let progress = 0;
 
-			fileUpload.id = Crypto.randomUUID();
+			fileUpload.id = makeid(8);
 			fileUpload.name = file.name;
 			fileUpload.mimetype = file.type;
 			fileUpload.length = bytes.length;
