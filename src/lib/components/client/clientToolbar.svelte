@@ -170,9 +170,9 @@
 				</p>
 				<label id="fileInputLabel" for="fileUploadInput">
 					<div
-						class="border-4 w-full bg-gray-50 rounded-md px-2 font-medium border-gray-100 border-dashed"
+						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed"
 					>
-						<p>Drop / Click here to upload files</p>
+						<p class='text-gray-700 font-semibold'>Drag / Click here to upload files</p>
 					</div>
 					<input
 						id="fileUploadInput"
