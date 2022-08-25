@@ -173,7 +173,10 @@
 				>
 					X
 				</button>
-				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center pr-3">
+				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
+					Upload files
+				</p>
+				<p class="font-semibold text-[14px] text-gray-700 select-none w-full text-center">
 					Files from remote host's downloads folder will be available here
 				</p>
 			</div>
@@ -211,7 +214,7 @@
 							<div class="h-[30px] w-full p-1 flex gap-3">
 								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].name}</p>
 								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].progress}%</p>
-								<button on:click={() => delete $uploadsInProgress[id]} class='absolute right-2'>
+								<button on:click={() => {delete $uploadsInProgress[id];}} class='absolute right-2'>
 									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90'>X</p>
 								</button>
 							</div>
