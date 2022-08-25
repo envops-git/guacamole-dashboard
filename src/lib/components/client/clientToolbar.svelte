@@ -215,8 +215,8 @@
 								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
 								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
 								{#if upload.progress == 100}
-								<button on:click={() => {uploadsInProgress.set($uploadsInProgress.filter((obj) => obj.id != upload.id ))}} class='absolute right-2'>
-									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90'>X</p>
+								<button on:click={() => {uploadsInProgress.set($uploadsInProgress.filter((obj) => obj.id != upload.id ))}} class='absolute right-5'>
+									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90 font-semibold'>X</p>
 								</button>
 								{/if}
 							</div>
