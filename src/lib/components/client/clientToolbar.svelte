@@ -51,7 +51,7 @@
 	}
 
 	function uploadFile(file) {
-		const STREAM_BLOB_SIZE = 8000;
+		const STREAM_BLOB_SIZE = 2048;
 		const fileUpload = {};
 		const reader = new FileReader();
 
