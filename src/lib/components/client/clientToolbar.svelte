@@ -21,7 +21,7 @@
 
 	export let client;
 
-	const uploadsInProgress = writable({});
+	const uploadsInProgress = writable([]);
 
 	let fileUploadInputValue;
 	let files = [];
@@ -32,9 +32,8 @@
 		if (!fileName || fileName == '') {
 			return;
 		}
-		let idArr = Object.keys($uploadsInProgress);
-		if (idArr.length) {
-			if(idArr.filter((id) => $uploadsInProgress[id].name == fileName).length){
+		if ($uploadsInProgress.length) {
+			if($uploadsInProgress.filter((upload) => upload.name == fileName).length){
 				return;
 			};
 		}
@@ -74,10 +73,11 @@
 
 					return false;
 				}
-				$uploadsInProgress[fileUpload.id] = {
+				$uploadsInProgress.push({
+					id: fileUpload.id,
 					name: fileUpload.name,
 					progress: 0
-				};
+				});
 				const slice = bytes.subarray(offset, offset + STREAM_BLOB_SIZE);
 				const base64 = bytesToBase64(slice);
 
@@ -93,7 +93,7 @@
 				} else {
 					progress = Math.floor((offset / bytes.length) * 100);
 				}
-				$uploadsInProgress[fileUpload.id].progress = progress;
+				$uploadsInProgress.find((upload) => upload.id == fileUpload.id).progress = progress;
 			};
 		};
 
@@ -209,12 +209,12 @@
 					/>
 				</label>
 				<div class="w-full h-full overflow-y-auto">
-					{#if Object.keys($uploadsInProgress).length}
-						{#each Object.keys($uploadsInProgress) as id}
+					{#if $uploadsInProgress.length}
+						{#each $uploadsInProgress as upload}
 							<div class="h-[30px] w-full p-1 flex gap-3">
-								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].name}</p>
-								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].progress}%</p>
-								<button on:click={() => {delete $uploadsInProgress[id];}} class='absolute right-2'>
+								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
+								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
+								<button on:click={() => {uploadsInProgress.set($uploadsInProgress.filter((obj) => obj.id != upload.id ))}} class='absolute right-2'>
 									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90'>X</p>
 								</button>
 							</div>
