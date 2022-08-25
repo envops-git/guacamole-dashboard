@@ -9,7 +9,7 @@
 		mdiCogOutline,
 		mdiTrashCanOutline
 	} from '@mdi/js';
-	import { bytesToBase64 } from '../../base64'
+	import { bytesToBase64 } from '../../base64';
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
@@ -33,9 +33,9 @@
 			return;
 		}
 		if ($uploadsInProgress.length) {
-			if($uploadsInProgress.filter((upload) => upload.name == fileName).length){
+			if ($uploadsInProgress.filter((upload) => upload.name == fileName).length) {
 				return;
-			};
+			}
 		}
 		uploadFile(files[files.length - 1]);
 	}
@@ -67,17 +67,19 @@
 			fileUpload.mimetype = file.type;
 			fileUpload.length = bytes.length;
 
+			$uploadsInProgress.push({
+				id: fileUpload.id,
+				name: fileUpload.name,
+				progress: 0
+			});
+
 			stream.onack = function ackReceived(status) {
 				if (status.isError()) {
-					alert('Error uploading file');
-
+					$uploadsInProgress[
+					$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)
+				].progress = 'Error';
 					return false;
 				}
-				$uploadsInProgress.push({
-					id: fileUpload.id,
-					name: fileUpload.name,
-					progress: 0
-				});
 				const slice = bytes.subarray(offset, offset + STREAM_BLOB_SIZE);
 				const base64 = bytesToBase64(slice);
 
@@ -93,7 +95,9 @@
 				} else {
 					progress = Math.floor((offset / bytes.length) * 100);
 				}
-				$uploadsInProgress[$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)].progress = progress;
+				$uploadsInProgress[
+					$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)
+				].progress = progress;
 			};
 		};
 
@@ -214,10 +218,21 @@
 							<div class="h-[30px] w-full p-1 flex gap-3">
 								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
 								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
-								{#if upload.progress == 100}
-								<button on:click={() => {uploadsInProgress.set($uploadsInProgress.filter((obj) => obj.id != upload.id ))}} class='absolute right-5'>
-									<p class='text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90 font-semibold'>X</p>
-								</button>
+								{#if upload.progress == 100 || upload.progress == 'Error'}
+									<button
+										on:click={() => {
+											uploadsInProgress.set(
+												$uploadsInProgress.filter((obj) => obj.id != upload.id)
+											);
+										}}
+										class="absolute right-5"
+									>
+										<p
+											class="text-sm text-gray-700 hover:text-gray-500 duration-100 scale-y-90 font-semibold"
+										>
+											X
+										</p>
+									</button>
 								{/if}
 							</div>
 						{/each}
