@@ -206,11 +206,11 @@
 					/>
 				</label>
 				<div class="w-full h-full overflow-y-scroll">
-					{#if $uploadsInProgress.length}
-						{#each $uploadsInProgress as upload}
+					{#if Object.keys($uploadsInProgress).length}
+						{#each Object.keys($uploadsInProgress) as id}
 							<div class="h-[30px] w-full p-1 flex gap-3">
-								<p class="text-gray-700 text-sm font-semibold">{upload.name}</p>
-								<p class="text-gray-700 text-sm font-semibold">{upload.progress}%</p>
+								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].name}</p>
+								<p class="text-gray-700 text-sm font-semibold">{$uploadsInProgress[id].progress}%</p>
 							</div>
 						{/each}
 					{/if}
