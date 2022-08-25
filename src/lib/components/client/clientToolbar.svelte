@@ -71,7 +71,7 @@
 					progress: 0
 				};
 				const slice = bytes.subarray(offset, offset + STREAM_BLOB_SIZE);
-				const base64 = Buffer.from(slice).toString('base64');
+				const base64 = new Buffer.from(slice).toString('base64');
 
 				// Write packet
 				stream.sendBlob(base64);
