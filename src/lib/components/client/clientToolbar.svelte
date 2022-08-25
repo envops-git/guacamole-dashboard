@@ -196,7 +196,7 @@ import { each } from 'svelte/types/runtime/internal/ssr';
 					{#each uploadsInProgress as upload}
 					<div class='h-[30px] w-full p-1 flex gap-3'>
 						<p class='text-gray-700 text-sm font-semibold'>{upload.name}</p>
-						<p class='text-gray-700 text-sm font-semibold'>{upload.progress}</p>
+						<p class='text-gray-700 text-sm font-semibold'>{upload.progress}%</p>
 					</div>
 					{/each}
 				</div>
