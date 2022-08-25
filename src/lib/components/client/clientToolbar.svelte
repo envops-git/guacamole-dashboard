@@ -31,6 +31,12 @@
 		if (!fileName || fileName == '') {
 			return;
 		}
+		let idArr = Object.keys(uploadsInProgress);
+		if (idArr.length) {
+			if(idArr.filter((id) => uploadsInProgress[id].name == fileName).length){
+				return;
+			};
+		}
 		uploadFile(files[files.length - 1]);
 	}
 
@@ -45,7 +51,7 @@
 	}
 
 	function uploadFile(file) {
-		const STREAM_BLOB_SIZE = 32000;
+		const STREAM_BLOB_SIZE = 8000;
 		const fileUpload = {};
 		const reader = new FileReader();
 
@@ -186,7 +192,7 @@
 				</p>
 				<label id="fileInputLabel" for="fileUploadInput">
 					<div
-						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed"
+						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed hover:border-gray-300"
 					>
 						<p class="text-gray-700 font-semibold">Drag / Click here to upload files</p>
 					</div>
