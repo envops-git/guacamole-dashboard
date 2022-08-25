@@ -93,7 +93,7 @@
 				} else {
 					progress = Math.floor((offset / bytes.length) * 100);
 				}
-				$uploadsInProgress.find((upload) => upload.id == fileUpload.id).progress = progress;
+				$uploadsInProgress[$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)].progress = progress;
 			};
 		};
 
