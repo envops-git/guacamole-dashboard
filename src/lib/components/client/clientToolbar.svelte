@@ -8,6 +8,7 @@
 		mdiCogOutline,
 		mdiTrashCanOutline
 	} from '@mdi/js';
+import { each } from 'svelte/types/runtime/internal/ssr';
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
@@ -24,10 +25,19 @@
 	let fileUploadInputValue;
 	let files = [];
 
-	function displayPath(path) {
-		const parts = path.split('\\');
-		return parts[parts.length - 1];
+	$: checkUpload(fileUploadInputValue);
+
+	function checkUpload(fileName) {
+		if (!fileName || fileName == '') {
+			return;
+		}
+		uploadFile(files[files.length-1]);
 	}
+
+	// function displayPath(path) {
+	// 	const parts = path.split('\\');
+	// 	return parts[parts.length - 1];
+	// }
 
 	function uploadFile(file) {
 		const fileUpload = {};
@@ -182,6 +192,14 @@
 						class="w-[100%] hover:cursor-pointer"
 					/>
 				</label>
+				<div class='w-full h-full overflow-y-scroll'>
+					{#each uploadsInProgress as upload}
+					<div class='h-[30px] w-full p-1 flex gap-3'>
+						<p class='text-gray-700 text-sm font-semibold'>{upload.name}</p>
+						<p class='text-gray-700 text-sm font-semibold'>{upload.progress}</p>
+					</div>
+					{/each}
+				</div>
 			</div>
 		{/if}
 
@@ -292,7 +310,7 @@
 	#fileInputLabel {
 		display: inline-block;
 		position: relative;
-		height: 200px;
+		height: 70px;
 		width: 100%;
 	}
 </style>
