@@ -26,14 +26,14 @@
 	let fileUploadInputValue;
 	let files = [];
 
-	$: checkUpload(fileUploadInputValue);
+	$: fileUploadInputValue, checkUpload(files[files.length - 1]);
 
-	function checkUpload(fileName) {
-		if (!fileName || fileName == '') {
+	function checkUpload(file) {
+		if (!file) {
 			return;
 		}
 		if ($uploadsInProgress.length) {
-			if ($uploadsInProgress.filter((upload) => upload.name == fileName).length) {
+			if ($uploadsInProgress.filter((upload) => upload.name == file.name).length) {
 				return;
 			}
 		}
