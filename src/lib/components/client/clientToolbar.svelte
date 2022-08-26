@@ -178,7 +178,7 @@
 					X
 				</button>
 				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
-					Upload files
+					Download files
 				</p>
 				<p class="font-semibold text-[14px] text-gray-700 select-none w-full text-center">
 					Files from remote host's downloads folder will be available here
