@@ -59,11 +59,11 @@
 			}
 			const token = await response.text();
 
-			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/tunnel');
+			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/guacamole/websocket-tunnel');
 			client = new Guacamole.Client(tunnel);
 
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + token + '&width=1920&height=1080');
+			client.connect('token=' + token + '&GUAC_WIDTH=1600&GUAC_HEIGHT=900&GUAC_DATA_SOURCE=postgresql&GUAC_ID=' + data.connectionID + '&GUAC_TYPE=c&GUAC_AUDIO=audio%2FL8&GUAC_AUDIO=audio%2FL16&GUAC_IMAGE=image%2Fjpeg&GUAC_IMAGE=image%2Fpng&GUAC_IMAGE=image%2Fwebp');
 
 			client.onclipboard = (clipboardStream, mimeType) => {
 				clipboardStream.onblob = (base64str) => {
