@@ -63,7 +63,15 @@
 			client = new Guacamole.Client(tunnel);
 
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
-			client.connect('token=' + data.authToken + '&GUAC_WIDTH=1600&GUAC_HEIGHT=900&GUAC_DATA_SOURCE=postgresql&GUAC_ID=' + data.connectionID + '&GUAC_TYPE=c&GUAC_AUDIO=audio%2FL8&GUAC_AUDIO=audio%2FL16&GUAC_IMAGE=image%2Fjpeg&GUAC_IMAGE=image%2Fpng&GUAC_IMAGE=image%2Fwebp');
+			client.connect(
+				'token=' +
+					data.authToken +
+					'&GUAC_WIDTH=1920&GUAC_HEIGHT=1080&GUAC_DATA_SOURCE=' +
+					data.dataSource +
+					'&GUAC_ID=' +
+					data.connectionID +
+					'&GUAC_TYPE=c&GUAC_AUDIO=audio%2FL8&GUAC_AUDIO=audio%2FL16&GUAC_IMAGE=image%2Fjpeg&GUAC_IMAGE=image%2Fpng&GUAC_IMAGE=image%2Fwebp'
+			);
 
 			client.onclipboard = (clipboardStream, mimeType) => {
 				clipboardStream.onblob = (base64str) => {
@@ -73,16 +81,16 @@
 
 			client.onrequired = (params) => {
 				console.log(params);
-			}
+			};
 
 			client.onfilesystem = (object, name) => {
 				console.log(name);
 				console.log(object);
-			}
-			
+			};
+
 			client.onfile = (stream, mimeType, filename) => {
 				console.log(mimeType, filename);
-			}
+			};
 
 			client.onstatechange = (state) => {
 				if (state == 5) {
