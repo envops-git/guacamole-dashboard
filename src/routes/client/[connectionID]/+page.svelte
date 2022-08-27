@@ -51,14 +51,6 @@
 
 	async function loadPage() {
 		try {
-			const response = await fetch('/api/connections/token/' + data.connectionID);
-
-			if (!response.ok) {
-				console.log(response.status);
-				location.assign('/');
-			}
-			const token = await response.text();
-
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/guacamole/websocket-tunnel');
 			client = new Guacamole.Client(tunnel);
 
