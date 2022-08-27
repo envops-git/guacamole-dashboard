@@ -2,6 +2,7 @@
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
 	import Guacamole from 'guacamole-common-js';
+	import { onMount } from 'svelte';
 
 	export let data;
 	let loaded = false;
@@ -49,7 +50,7 @@
 		);
 	}
 
-	async function loadPage() {
+	onMount(() => {
 		try {
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/guacamole/websocket-tunnel');
 			client = new Guacamole.Client(tunnel);
@@ -114,7 +115,7 @@
 			// alert('Something went wrong');
 			location.assign('/');
 		}
-	}
+	});
 </script>
 
 <svelte:window bind:innerHeight bind:innerWidth />
@@ -129,14 +130,13 @@
 			: '0'}px; top: 50px;"
 		class="z-0 hover:cursor-none"
 	/>
-	{#await loadPage()}
-		<div class="w-full h-fit flex flex-col justify-center items-center">
-			<div class="w-full h-[calc(100vh/2-100px)]" />
-			<Stretch size="50" color="#1E3A8A" unit="px" />
-		</div>
-	{/await}
 </div>
 
 {#if loaded}
 	<ClientToolbar bind:client bind:clipboardData />
+{:else}
+	<div class="w-full h-fit flex flex-col justify-center items-center">
+		<div class="w-full h-[calc(100vh/2-100px)]" />
+		<Stretch size="50" color="#1E3A8A" unit="px" />
+	</div>
 {/if}
