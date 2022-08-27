@@ -18,6 +18,7 @@ export async function load({ request, params }) {
   }
 
   return {
-    connectionID
+    connectionID,
+    authToken: cookies.accessToken
   }
 }
