@@ -151,6 +151,7 @@ export async function userEffectivePermissionsGET(dataSource, token, username) {
 }
 
 export async function userGroupsGET(dataSource, token, username) {
+
   if (!dataSource || !token || !username || typeof (dataSource) != 'string' || typeof (username) != 'string' || typeof (token) != 'string' || dataSource == '' || token == '' || username == '') {
     return { status: 400 }
   }

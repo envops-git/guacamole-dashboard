@@ -6,3 +6,4 @@ node_modules
 .env
 .env.*
 !.env.example
+guac_tunnel_example.txt

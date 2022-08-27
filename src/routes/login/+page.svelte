@@ -56,7 +56,6 @@
 			}
 
 			if (response.status == 201) {
-				const user = await response.json();
 				location.assign('/');
 			}
 		} catch (error) {

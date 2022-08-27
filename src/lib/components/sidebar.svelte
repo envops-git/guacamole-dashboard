@@ -1,7 +1,9 @@
 <script>
 	import { mdiHome } from '@mdi/js';
   import Icon from 'mdi-svelte';
-	let items = [{ name: 'Home', path: '/', icon: mdiHome }];
+	import { page } from '$app/stores';
+
+	let items = [{ name: 'Home', path: $page.data.admin ? '/admin' : '/', icon: mdiHome }];
 </script>
 
 <div class="w-full h-full bg-[#dddddd] border-r-2 border-white">
