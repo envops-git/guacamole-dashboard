@@ -1,7 +1,7 @@
-import { activeConnectionsGET, connectionGET } from "../../../lib/guacAPI/connections";
+import { activeConnectionsGET, connectionGET, killActiveConnectionPATCH } from "../../../lib/guacAPI/connections";
 import cookie from 'cookie';
 
-export async function GET(event){
+export async function GET(event) {
   const cookies = cookie.parse((await event.request.headers.get('cookie')) || '');
   if (!cookies.dataSource || !cookies.accessToken) {
     return new Response(undefined, { status: 403 });
@@ -25,7 +25,7 @@ export async function GET(event){
       }
       return { ...activeConnectionsResponse.data[key], name: connectionResponse.data.name }
     }))
-  
+
     return new Response(JSON.stringify(activeConnections), { status: 200 });
   } catch (error) {
     console.log(error);
@@ -33,10 +33,26 @@ export async function GET(event){
   }
 }
 
-export async function DELETE(event){
+export async function DELETE(event) {
   const cookies = cookie.parse((await event.request.headers.get('cookie')) || '');
   if (!cookies.dataSource || !cookies.accessToken) {
     return new Response(undefined, { status: 403 });
+  }
+
+  try {
+    const deleteList = await event.request.json();
+
+    if (!deleteList.length) {
+      return new Response(undefined, { status: 204 });
+    }
+
+    await Promise.all(deleteList.map((id) => {
+      killActiveConnectionPATCH(cookies.dataSource, cookies.token, id);
+    }));
+    return new Response(undefined, { status: 204 });
+  } catch (error) {
+    console.log(error);
+    return new Response(undefined, { status: error });
   }
 
 }

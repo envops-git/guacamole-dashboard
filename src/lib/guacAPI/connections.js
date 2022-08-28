@@ -106,7 +106,7 @@ export async function activeConnectionsGET(dataSource, token) {
   return { status: 200, data: await response.json() };
 }
 
-export async function killActiveConnectionsPATCH(dataSource, token, activeConnectionID) {
+export async function killActiveConnectionPATCH(dataSource, token, activeConnectionID) {
 
   if (!dataSource || !token || typeof (dataSource) != 'string' || typeof (token) != 'string' || dataSource == '' || token == '' || !activeConnectionID || typeof(activeConnectionID) != 'string' || activeConnectionID == '') {
     return { status: 400 }
@@ -126,7 +126,7 @@ export async function killActiveConnectionsPATCH(dataSource, token, activeConnec
   });
 
   if (!response.ok) {
-    return { status: response.status }
+    return Promise.reject({ status: response.status });
   }
 
   return { status: 204, data: await response.json() };
