@@ -1,5 +1,6 @@
 <script>
 	import { writable } from 'svelte/store';
+	import { onDestroy } from 'svelte';
 	import Icon from 'mdi-svelte';
 	import {
 		mdiArrowLeft,
@@ -20,7 +21,7 @@
 	export let settingsVisible = false;
 
 	export let client;
-
+	
 	const uploadsInProgress = writable([]);
 
 	let fileUploadInputValue;
@@ -123,7 +124,7 @@
 	<div class="flex flex-col w-full h-fit text-white ">
 		{#if clipboardVisible}
 			<div
-				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 border-2 border-blue-900 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
 					on:click={() => (clipboardVisible = false)}
@@ -154,7 +155,7 @@
 		{/if}
 		{#if settingsVisible}
 			<div
-				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white border-2 border-blue-900 p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
 					on:click={() => (settingsVisible = false)}
@@ -169,7 +170,7 @@
 		{/if}
 		{#if downloadsVisible}
 			<div
-				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white border-2 border-blue-900 p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
 					on:click={() => (downloadsVisible = false)}
@@ -187,7 +188,7 @@
 		{/if}
 		{#if uploadsVisible}
 			<div
-				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
+				class="absolute left-[78px] bottom-[16px] w-[350px] h-[300px] border-2 border-blue-900 bg-white p-3 rounded-md flex flex-col items-center gap-2 z-0"
 			>
 				<button
 					on:click={() => (uploadsVisible = false)}

@@ -33,12 +33,15 @@ export async function load({ request, url }) {
       }
     } else {
       if (url.pathname.includes('/admin')) {
-        throw redirect(302, '/');
+        throw redirect(302, '/clientConnections');
+      }
+      if (url.pathname == '/') {
+        throw redirect(302, '/clientConnections');
       }
     }
 
     if (url.pathname.includes('/login')) {
-      throw redirect(302, '/');
+      throw redirect(302, '/clientConnections');
     }
     return { userData: {...response.data, admin: userGroups.includes('Admins')} }
   }

@@ -56,7 +56,7 @@
 			}
 
 			if (response.status == 201) {
-				location.assign('/');
+				location.reload();
 			}
 		} catch (error) {
 			console.log(error);

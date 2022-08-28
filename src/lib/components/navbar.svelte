@@ -1,7 +1,6 @@
 <script>
 	import { fade, fly } from 'svelte/transition';
 	import { sidebarVisible } from '$lib/stores.js';
-	import Sidebar from './sidebar.svelte';
 	import Icon from 'mdi-svelte';
 	import { mdiMenu, mdiTriangleSmallDown, mdiAccount, mdiLogout } from '@mdi/js';
 	import { page } from '$app/stores';
@@ -24,31 +23,7 @@
 	class="w-full shadow-md h-[50px] bg-blue-900 flex items-center px-4 justify-between border-b-2 border-white"
 	id="nav"
 >
-	{#if $sidebarVisible}
-		<div
-			transition:fly={{ x: -500, duration: 400 }}
-			class="absolute top-[50px] left-0 w-[250px] h-[calc(100vh-50px)] z-20"
-			id="sidebar"
-		>
-			<Sidebar />
-		</div>
-	{/if}
 	<div class="flex items-center">
-		{#if $page.data.userData != undefined}
-			<div
-				class:bg-blue-800={$sidebarVisible}
-				class="w-fit h-fit mr-4 flex justify-center items-center p-1 text-white rounded-sm duration-100"
-			>
-				<button
-					class="flex items-center justify-center"
-					on:click={() => {
-						$sidebarVisible = !$sidebarVisible;
-					}}
-				>
-					<Icon path={mdiMenu} />
-				</button>
-			</div>
-		{/if}
 		<slot name="brand">
 			<p class="text-white font-semibold text-lg select-none">Access</p>
 		</slot>

@@ -55,6 +55,10 @@
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/guacamole/websocket-tunnel');
 			client = new Guacamole.Client(tunnel);
 
+			client.onerror = (status) => {
+				console.log(status);
+			}
+
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect(
 				'token=' +
@@ -86,6 +90,7 @@
 			};
 
 			client.onstatechange = (state) => {
+				console.log(state);
 				if (state == 5) {
 					location.assign('/');
 				}
