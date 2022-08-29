@@ -45,7 +45,36 @@
 	}
 
 	async function createGroup() {
+		if (groupName == '') {
+			alert('Group must have a name');
+			return;
+		}
 		creating = true;
+
+		const checkedUsers = users.filter( user => user.checked);
+		const checkedConnections = connections.filter( connection => connection.checked);
+
+		const response = await fetch('/api/groups', {
+			method: 'POST',
+			body: JSON.stringify({
+				groupName,
+				permissions: {
+					administer: administerSystem,
+					createUsers,
+					createGroups,
+					createConnections
+				},
+				users: checkedUsers,
+				connections: checkedConnections
+			})
+		})
+
+		if (!response.ok) {
+			creating = false;
+			alert('Failed to create group')
+			return;
+		}
+		location.assign('/admin/groups');
 	}
 </script>
 
@@ -54,7 +83,7 @@
 	<div
 		class="w-full grid grid-cols-12 gap-5 justify-start p-4 border-2 border-blue-900 rounded bg-gray-200"
 	>
-		<div class="col-span-4 flex flex-col p-3 rounded border-2 border-blue-900 h-[270px]">
+		<div class="col-span-4 flex flex-col p-3 h-[270px]">
 			<div class="flex gap-3 items-center">
 				<label class="font-semibold text-gray-700 whitespace-nowrap" for="groupName"
 					>Group Name:</label
@@ -81,16 +110,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-span-8 flex flex-col p-3 rounded border-2 border-blue-900 h-[270px]">
-			<p class="font-semibold text-lg w-full text-center border-b-2 border-blue-900 pb-2">Users</p>
+		<div class="col-span-8 flex flex-col p-3 h-[270px]">
+			<p class="font-semibold text-lg w-full text-center pb-2">Users</p>
 			{#await getUsers()}
 				<div class="w-full h-full flex  justify-center items-center">
 					<Stretch size="50" color="#1E3A8A" unit="px" />
 				</div>
 			{:then}
-				<div class="w-full h-full overflow-y-auto">
+				<div class="w-full h-full overflow-y-auto border-2 border-blue-900 p-2 rounded">
 					{#each users as user, i}
-						<div class="w-full h-[40px] border-b border-blue-900 flex items-center">
+						<div class="w-full h-[40px] border-b border-blue-900 flex items-center gap-1">
 							<input bind:checked={user.checked} class="w-[20px] h-[20px]" type="checkbox" />
 							<p class="p-1 font-semibold text-gray-700">{user.name}</p>
 						</div>
@@ -105,8 +134,8 @@
 				</div>
 			{/await}
 		</div>
-		<div class="col-span-12 flex flex-col p-3 rounded border-2 border-blue-900 h-[270px]">
-			<p class="font-semibold text-lg w-full text-center border-b-2 border-blue-900 pb-2">
+		<div class="col-span-12 flex flex-col p-3 h-[270px]">
+			<p class="font-semibold text-lg w-full text-center pb-2">
 				Connections
 			</p>
 			{#await getConnections()}
@@ -114,9 +143,9 @@
 					<Stretch size="50" color="#1E3A8A" unit="px" />
 				</div>
 			{:then}
-				<div class="w-full h-full overflow-y-auto">
+				<div class="w-full h-full overflow-y-auto  border-2 border-blue-900 p-2 rounded">
 					{#each connections as connection, i}
-						<div class="w-full h-[40px] border-b border-blue-900 flex items-center">
+						<div class="w-full h-[40px] border-b border-blue-900 flex items-center gap-1">
 							<input bind:checked={connection.checked} class="w-[20px] h-[20px]" type="checkbox" />
 							<p class="p-1 font-semibold text-gray-700">{connection.name}</p>
 						</div>
