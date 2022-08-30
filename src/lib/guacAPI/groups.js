@@ -1,7 +1,6 @@
 import { url } from "$lib/guacAPI/url";
 
 export async function groupsGET(dataSource, token) {
-
   if (!dataSource || !token || typeof (dataSource) != 'string' || typeof (token) != 'string' || dataSource == '' || token == '') {
     return { status: 400 }
   }
@@ -46,6 +45,40 @@ export async function groupGET(dataSource, token, groupName) {
   }
 
   const response = await fetch(url + 'session/data/' + dataSource + '/userGroups/' + groupName + '?' + new URLSearchParams({ token }));
+
+  if (response.ok) {
+    return { status: 200, data: await response.json() };
+  }
+
+  if (response.status == 500) {
+    return { status: 500 }
+  }
+  return { status: 403 }
+}
+
+export async function groupPermissionsGET(dataSource, token, groupName) {
+  if (!dataSource || !token || !groupName || typeof (dataSource) != 'string' || typeof (groupName) != 'string' || typeof (token) != 'string' || dataSource == '' || token == '' || groupName == '') {
+    return { status: 400 }
+  }
+
+  const response = await fetch(url + 'session/data/' + dataSource + '/userGroups/' + groupName + '/permissions?' + new URLSearchParams({ token }));
+
+  if (response.ok) {
+    return { status: 200, data: await response.json() };
+  }
+
+  if (response.status == 500) {
+    return { status: 500 }
+  }
+  return { status: 403 }
+}
+
+export async function groupUsersGET(dataSource, token, groupName) {
+  if (!dataSource || !token || !groupName || typeof (dataSource) != 'string' || typeof (groupName) != 'string' || typeof (token) != 'string' || dataSource == '' || token == '' || groupName == '') {
+    return { status: 400 }
+  }
+
+  const response = await fetch(url + 'session/data/' + dataSource + '/userGroups/' + groupName + '/memberUsers?' + new URLSearchParams({ token }));
 
   if (response.ok) {
     return { status: 200, data: await response.json() };

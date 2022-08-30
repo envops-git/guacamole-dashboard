@@ -1,6 +1,5 @@
 <script>
 	import { writable } from 'svelte/store';
-	import { onDestroy } from 'svelte';
 	import Icon from 'mdi-svelte';
 	import {
 		mdiArrowLeft,
@@ -11,6 +10,7 @@
 		mdiTrashCanOutline
 	} from '@mdi/js';
 	import { bytesToBase64 } from '../../base64';
+	import { BlobReader, JSONReader } from 'guacamole-common-js';
 
 	export let clipboardData = '';
 	export let toolbarVisible = false;
@@ -21,15 +21,45 @@
 	export let settingsVisible = false;
 
 	export let client;
-	
+	export let fileSystem;
+
 	const uploadsInProgress = writable([]);
 
-	let fileUploadInputValue;
+	let fileUploadInputValue = '';
 	let files = [];
+
+	let remoteFiles = [];
 
 	$: fileUploadInputValue, checkUpload(files[files.length - 1]);
 
+	$: downloadsVisible, getFiles(downloadsVisible);
+
+	function getFiles(bool) {
+		if (!bool) {
+			return;
+		}
+		fileSystem.requestInputStream('/Downloads');
+		fileSystem.onbody = (stream, mimeType, name) => {
+			if (name == '/Downloads') {
+				stream.sendAck('', 0)
+				const reader = new JSONReader(stream, mimeType);
+				reader.onend = () => {
+					const json = reader.getJSON();
+					let keys = Object.keys(json);
+					remoteFiles = [];
+					keys.map((key) => {
+						let name = key.split('/Downloads/')[1];
+						remoteFiles.push(name);
+					});
+				}
+			}
+		};
+	}
+
 	function checkUpload(file) {
+		if (fileUploadInputValue == '') {
+			return;
+		}
 		if (!file) {
 			return;
 		}
@@ -51,7 +81,35 @@
 		return result;
 	}
 
+	function downloadFile(fileName) {
+		fileSystem.requestInputStream('/Downloads/' + fileName );
+		fileSystem.onbody = (stream, mimeType, name) => {
+			if (name == '/Downloads/' + fileName) {
+				stream.sendAck('', 0)
+				const reader = new BlobReader(stream, mimeType);
+				reader.onend = () => {
+					const blob = reader.getBlob();
+					if (window.navigator.msSaveOrOpenBlob) {
+						window.navigator.msSaveBlob(blob, fileName);
+					} else {
+						const elem = window.document.createElement('a');
+						elem.href = window.URL.createObjectURL(blob);
+						elem.download = fileName;
+						document.body.appendChild(elem);
+						elem.click();
+						document.body.removeChild(elem);
+					}
+				}
+			}
+		};
+	}
+
 	function uploadFile(file) {
+		let fileInput = document.getElementById('fileUploadInput');
+		fileInput.value = '';
+		fileInput.type = '';
+		fileInput.type = 'file';
+
 		const STREAM_BLOB_SIZE = 2048;
 		const fileUpload = {};
 		const reader = new FileReader();
@@ -77,8 +135,8 @@
 			stream.onack = function ackReceived(status) {
 				if (status.isError()) {
 					$uploadsInProgress[
-					$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)
-				].progress = 'Error';
+						$uploadsInProgress.findIndex((upload) => upload.id == fileUpload.id)
+					].progress = 'Error';
 					return false;
 				}
 				const slice = bytes.subarray(offset, offset + STREAM_BLOB_SIZE);
@@ -184,6 +242,13 @@
 				<p class="font-semibold text-[14px] text-gray-700 select-none w-full text-center">
 					Files from remote host's downloads folder will be available here
 				</p>
+				<div class='border-2 w-full h-full overflow-y-auto p-0'>
+				{#each remoteFiles as fileName }
+					<p on:click={() => {
+						downloadFile(fileName);
+					}} class='font-semibold text-sm text-gray-700 p-1 w-full hover:bg-gray-100 hover:cursor-pointer'>{fileName}</p>
+				{/each}
+			</div>
 			</div>
 		{/if}
 		{#if uploadsVisible}

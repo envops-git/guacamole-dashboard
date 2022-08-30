@@ -90,7 +90,7 @@
 				>
 				<input bind:value={groupName} class="rounded" id="groupName" type="text" />
 			</div>
-			<div class="w-full flex flex-col mt-6">
+			<div class="w-[200px] flex flex-col mt-6">
 				<p class="font-semibold text-lg underline-offset-4 underline">Permissions</p>
 				<div class="flex justify-between items-center">
 					<p class="font-semibold text-gray-700 whitespace-nowrap">Administer System</p>

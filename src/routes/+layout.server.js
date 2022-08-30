@@ -5,7 +5,7 @@ import { userGroupsGET } from '../lib/guacAPI/users'
 
 export async function load({ request, url }) {
   const cookies = cookie.parse((await request.headers.get('cookie')) || '');
-  if (cookies.accessToken == undefined) {
+  if (cookies.accessToken == undefined || cookies.dataSource == undefined || cookies.username == undefined) {
     if (url.pathname != '/login') {
       throw redirect(302, '/login');
     }

@@ -1,7 +1,7 @@
 <script>
 	import { Stretch } from 'svelte-loading-spinners';
 	import ClientToolbar from '../../../lib/components/client/clientToolbar.svelte';
-	import Guacamole from 'guacamole-common-js';
+	import Guacamole, { BlobReader } from 'guacamole-common-js';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -9,6 +9,8 @@
 
 	let client;
 	let tunnel;
+
+	let fileSystem = {};
 
 	let innerHeight;
 	let innerWidth;
@@ -54,10 +56,9 @@
 		try {
 			tunnel = new Guacamole.WebSocketTunnel('wss://test.envops.com/guacamole/websocket-tunnel');
 			client = new Guacamole.Client(tunnel);
-
 			client.onerror = (status) => {
 				console.log(status);
-			}
+			};
 
 			document.getElementById('displayCenter').appendChild(client.getDisplay().getElement());
 			client.connect(
@@ -79,14 +80,10 @@
 			client.onrequired = (params) => {
 				console.log(params);
 			};
-
+			
 			client.onfilesystem = (object, name) => {
-				console.log(name);
-				console.log(object);
-			};
-
-			client.onfile = (stream, mimeType, filename) => {
-				console.log(mimeType, filename);
+				fileSystem = object;
+				fileSystem.name = name;
 			};
 
 			client.onstatechange = (state) => {
@@ -113,6 +110,7 @@
 			keyboard.onkeyup = function (keysym) {
 				client.sendKeyEvent(0, keysym);
 			};
+
 			loaded = true;
 			listenClipboardCopy();
 		} catch (error) {
@@ -138,7 +136,7 @@
 </div>
 
 {#if loaded}
-	<ClientToolbar bind:client bind:clipboardData />
+	<ClientToolbar bind:client bind:clipboardData bind:fileSystem />
 {:else}
 	<div class="w-full h-fit flex flex-col justify-center items-center">
 		<div class="w-full h-[calc(100vh/2-100px)]" />
