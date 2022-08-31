@@ -117,7 +117,7 @@
 					on:click={() => location.assign('/admin/groups/' + groupName)}
 					class="w-full min-h-[40px] {i == filteredGroups.length - 1
 						? ''
-						: 'border-b-2'} hover:bg-gray-100 border-blue-900  flex justify-start pl-4 items-center duration-100"
+						: 'border-b-2'} hover:bg-gray-100 border-gray-300  flex justify-start pl-4 items-center duration-100"
 				>
 					<p class="font-semibold text-gray-700">{groupName}</p>
 				</button>

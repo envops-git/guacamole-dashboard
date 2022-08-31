@@ -123,7 +123,7 @@
 				<div
 					class="w-full min-h-[40px] {i == filteredConnections.length - 1
 						? ''
-						: 'border-b-2'}  border-blue-900 grid grid-cols-12"
+						: 'border-b-2'}  border-gray-300 grid grid-cols-12"
 				>
 					<!-- <div class="h-[40px] w-[50px] col-span-1 p-[10px] flex justify-center items-center">
 						<input bind:checked={connection.checked} class="w-5 h-5" type="checkbox" />

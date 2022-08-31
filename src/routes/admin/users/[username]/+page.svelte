@@ -5,13 +5,13 @@
 
 	export let data;
 
-	let users = [];
 	let connections = [];
+
+	let username = data.username;
 
 	let updating = false;
 	let deleting = false;
 
-	let groupName = data.groupName;
 	let administerSystem = data.permissions.includes('ADMINISTER') ? true : false;
 	let createUsers = data.permissions.includes('CREATE_USER') ? true : false;
 	let createGroups = data.permissions.includes('CREATE_USER_GROUP') ? true : false;
@@ -31,19 +31,6 @@
 		}
 	}
 
-	async function getUsers() {
-		const response = await fetch('/api/users');
-		if (!response.ok) {
-			return Promise.reject();
-		}
-		users = (await response.json()).map((username) => {
-			if (data.users.includes(username)) {
-				return { name: username, checked: true };
-			} else {
-				return { name: username, checked: false };
-			}
-		});
-	}
 	async function getConnections() {
 		const response = await fetch('/api/connections');
 		if (!response.ok) {
@@ -57,69 +44,67 @@
 		});
 	}
 
-	async function deleteGroup() {
-		deleting = true;
-
-		const response = await fetch('/api/groups', {
-			method: 'DELETE',
-			body: groupName
-		});
-
-		if (!response.ok) {
-			deleting = false;
-			alert('Failed to delete group');
-			return;
-		}
-		location.assign('/admin/groups');
-	}
-
-	async function updateGroup() {
+	async function updateUser() {
 		updating = true;
-
-		const checkedUsers = users.filter((user) => user.checked);
 		const checkedConnections = connections.filter((connection) => connection.checked);
 
-		const response = await fetch('/api/groups', {
+		const response = await fetch('/api/users', {
 			method: 'PUT',
 			body: JSON.stringify({
-				groupName,
+				username,
 				permissions: {
 					administer: administerSystem,
 					createUsers,
 					createGroups,
 					createConnections
 				},
-				users: checkedUsers,
 				connections: checkedConnections
 			})
 		});
 
 		if (!response.ok) {
 			updating = false;
-			alert('Failed to update group');
+			alert('Failed to update user');
 			return;
 		}
-		location.assign('/admin/groups');
+		location.assign('/admin/users');
+	}
+
+	async function deleteUser() {
+		deleting = true;
+		const response = await fetch('/api/users', {
+			method: 'DELETE',
+			body: username
+		});
+
+		if (!response.ok) {
+			deleting = false;
+			alert('Failed to delete user');
+			return;
+		}
+		location.assign('/admin/users');
 	}
 </script>
 
-<div class="w-full h-[calc(100vh-100px) flex flex-col items-center py-3 px-4 ">
+<div class="w-full h-[calc(100vh-100px) flex flex-col items-center py-3 px-4">
 	<div
 		class="w-full grid grid-cols-12 gap-5 justify-start p-4 border-2 border-blue-900 rounded bg-gray-200"
 	>
-		<div class="flex gap-3 items-center col-span-12">
-			<label class="font-semibold text-gray-700 whitespace-nowrap" for="groupName"
-				>Group Name:</label
-			>
-			<input
-				disabled
-				bind:value={groupName}
-				class="rounded font-semibold text-gray-700 text-[16px]"
-				id="groupName"
-				type="text"
-			/>
+		<div class="col-span-6 flex flex-col w-full h-full">
+			<p class="font-semibold text-lg w-full text-center">User</p>
+			<div class="w-full h-full border-2 border-blue-900 rounded p-3 gap-2 flex flex-col mt-2">
+				<div class="flex gap-3 items-center">
+					<p class="font-semibold text-gray-700 whitespace-nowrap w-[160px]">Username:</p>
+					<input
+						bind:value={username}
+						class="rounded font-semibold text-[15px] text-gray-700 max-w-[200px]"
+						type="text"
+						disabled
+					/>
+				</div>
+			</div>
 		</div>
-		<div class="col-span-4 flex flex-col w-full h-full">
+		<div class="col-span-6 flex flex-col w-full h-full">
 			<p class="font-semibold text-lg w-full text-center">Permissions</p>
 			<div class="w-full h-full border-2 border-blue-900 rounded p-2 flex flex-col mt-2">
 				<div class="flex justify-between items-center">
@@ -138,30 +123,6 @@
 					<p class="font-semibold text-gray-700 whitespace-nowrap">Create Connections</p>
 					<input class="w-[20px] h-[20px]" bind:checked={createConnections} type="checkbox" />
 				</div>
-			</div>
-		</div>
-		<div class="col-span-8 flex flex-col w-full h-full">
-			<p class="font-semibold text-lg w-full text-center pb-2">Users</p>
-			<div class="w-full h-[220px] overflow-y-auto border-2 border-blue-900 p-2 rounded">
-				{#await getUsers()}
-					<div class="w-full h-full flex  justify-center items-center">
-						<Stretch size="50" color="#1E3A8A" unit="px" />
-					</div>
-				{:then}
-					{#each users as user, i}
-						<div class="w-full h-[40px] border-b border-blue-900 flex items-center gap-1">
-							<input bind:checked={user.checked} class="w-[20px] h-[20px]" type="checkbox" />
-							<p class="p-1 font-semibold text-gray-700">{user.name}</p>
-						</div>
-					{/each}
-				{:catch}
-					<div
-						class="w-full h-[50px] text-red-400 font-semibold flex justify-center items-center gap-2"
-					>
-						<Icon path={mdiAlertBox} />
-						Error loading users
-					</div>
-				{/await}
 			</div>
 		</div>
 		<div class="col-span-12 flex flex-col w-full h-full">
@@ -192,12 +153,12 @@
 	<div class="w-full flex items-start justify-center">
 		<div class="flex justify-between w-fit h-full">
 			<button
-				on:click={updateGroup}
+				on:click={updateUser}
 				class="p-[6px] mt-3 m-1 bg-blue-700 text-white hover:bg-blue-500 w-[120px] h-9 rounded-sm duration-100 focus:outline-0"
 				disabled={updating}
 			>
 				{#if !updating}
-					<p class="font-semibold text-sm">Update Group</p>
+					<p class="font-semibold text-sm">Update User</p>
 				{:else}
 					<div class="flex justify-center">
 						<BarLoader size="50" color="#ffffff" unit="px" duration="2s" />
@@ -205,19 +166,19 @@
 				{/if}
 			</button>
 			<button
-				on:click={() => location.assign('/admin/groups')}
+				on:click={() => location.assign('/admin/users')}
 				class="p-[6px] mt-3 m-1 bg-blue-700 text-white hover:bg-blue-500 w-[120px] h-9 rounded-sm duration-100 focus:outline-0"
 				disabled={updating}
 			>
 				<p class="font-semibold text-sm">Cancel</p>
 			</button>
 			<button
-				on:click={deleteGroup}
+				on:click={deleteUser}
 				class="p-[6px] mt-3 m-1 bg-red-700 text-white hover:bg-red-500 w-[120px] h-9 rounded-sm duration-100 focus:outline-0"
 				disabled={deleting}
 			>
 				{#if !deleting}
-					<p class="font-semibold text-sm">Delete Group</p>
+					<p class="font-semibold text-sm">Delete User</p>
 				{:else}
 					<div class="flex justify-center">
 						<BarLoader size="50" color="#ffffff" unit="px" duration="2s" />

@@ -27,20 +27,41 @@ export async function usersPOST(dataSource, token, userData) {
     return { status: 400 }
   }
 
-  let requestBody = {
-    "username": userData.username,
-    "password": userData.password,
-    "attributes": {
-      "disabled": userData.attributes.disabled || '',
-      "expired": userData.attributes.expired || '',
-      "access-window-start": userData.attributes["access-window-start"] || '',
-      "access-window-end": userData.attributes["access-window-end"] || '',
-      "valid-from": userData.attributes["valid-from"] || '',
-      "valid-until": userData.attributes["valid-until"] || '',
-      "timezone": userData.attributes.timezone || null,
-      "guac-full-name": userData.attributes["guac-full-name"] || '',
-      "guac-organization": userData.attributes["guac-organization"] || '',
-      "guac-organizational-role": userData.attributes["guac-organizational-role"] || '',
+  let requestBody;
+
+  if (!userData.attributes) {
+    requestBody = {
+      "username": userData.username,
+      "password": userData.password,
+      "attributes": {
+        "disabled": '',
+        "expired": '',
+        "access-window-start": '',
+        "access-window-end": '',
+        "valid-from": '',
+        "valid-until": '',
+        "timezone": null,
+        "guac-full-name": '',
+        "guac-organization": '',
+        "guac-organizational-role": '',
+      }
+    }
+  } else {
+    requestBody = {
+      "username": userData.username,
+      "password": userData.password,
+      "attributes": {
+        "disabled": userData.attributes.disabled || '',
+        "expired": userData.attributes.expired || '',
+        "access-window-start": userData.attributes["access-window-start"] || '',
+        "access-window-end": userData.attributes["access-window-end"] || '',
+        "valid-from": userData.attributes["valid-from"] || '',
+        "valid-until": userData.attributes["valid-until"] || '',
+        "timezone": userData.attributes.timezone || null,
+        "guac-full-name": userData.attributes["guac-full-name"] || '',
+        "guac-organization": userData.attributes["guac-organization"] || '',
+        "guac-organizational-role": userData.attributes["guac-organizational-role"] || '',
+      }
     }
   }
 
@@ -53,7 +74,7 @@ export async function usersPOST(dataSource, token, userData) {
   });
 
   if (response.ok) {
-    return { status: 200, data: await response.json() };
+    return { status: 201, data: await response.json() };
   }
 
   if (response.status == 500) {
@@ -72,7 +93,7 @@ export async function userDELETE(dataSource, token, username) {
   });
 
   if (response.ok) {
-    return { status: 204, data: await response.json() };
+    return { status: 204 };
   }
 
   if (response.status == 500) {
@@ -432,6 +453,132 @@ export async function userUpdatePUT(dataSource, token, username, data) {
     headers,
     body: JSON.stringify(data)
   });
+  if (response.ok) {
+    return { status: 204 };
+  }
+
+  if (response.status == 500) {
+    return { status: 500 }
+  }
+  return { status: 403 }
+}
+
+export async function assignPermissionsToUserPATCH(dataSource, token, permissions, username) {
+  if (!dataSource || !token || !permissions || !username || typeof (dataSource) != 'string' || typeof (permissions) != 'object' || typeof (token) != 'string' || typeof (username) != 'string' || dataSource == '' || token == '' || username == '') {
+    return { status: 400 }
+  }
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  if (permissions.administer != true
+    && permissions.createUsers != true
+    && permissions.createGroups != true
+    && permissions.createConnections != true) {
+    return { status: 204 };
+  }
+  let body = [];
+
+  if (permissions.administer) {
+    body.push({
+      "op": "add",
+      "path": "/systemPermissions",
+      "value": "ADMINISTER"
+    });
+  }
+
+  if (permissions.createUsers) {
+    body.push({
+      "op": "add",
+      "path": "/systemPermissions",
+      "value": "CREATE_USER"
+    });
+  }
+
+  if (permissions.createGroups) {
+    body.push({
+      "op": "add",
+      "path": "/systemPermissions",
+      "value": "CREATE_USER_GROUP"
+    });
+  }
+
+  if (permissions.createConnections) {
+    body.push({
+      "op": "add",
+      "path": "/systemPermissions",
+      "value": "CREATE_CONNECTION"
+    });
+  }
+
+  const response = await fetch(url + 'session/data/' + dataSource + '/users/' + username + '/permissions?' + new URLSearchParams({ token }), {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify(body)
+  });
+
+  if (response.ok) {
+    return { status: 204 };
+  }
+
+  if (response.status == 500) {
+    return { status: 500 }
+  }
+  return { status: 403 }
+}
+
+export async function revokePermissionsFromUserPATCH(dataSource, token, permissions, username) {
+  if (!dataSource || !token || !permissions || !username || typeof (dataSource) != 'string' || typeof (permissions) != 'object' || typeof (token) != 'string' || typeof (username) != 'string' || dataSource == '' || token == '' || username == '') {
+    return { status: 400 }
+  }
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  if (permissions.administer != true
+    && permissions.createUsers != true
+    && permissions.createGroups != true
+    && permissions.createConnections != true) {
+    return { status: 204 };
+  }
+  let body = [];
+
+  if (permissions.administer) {
+    body.push({
+      "op": "remove",
+      "path": "/systemPermissions",
+      "value": "ADMINISTER"
+    });
+  }
+
+  if (permissions.createUsers) {
+    body.push({
+      "op": "remove",
+      "path": "/systemPermissions",
+      "value": "CREATE_USER"
+    });
+  }
+
+  if (permissions.createGroups) {
+    body.push({
+      "op": "remove",
+      "path": "/systemPermissions",
+      "value": "CREATE_USER_GROUP"
+    });
+  }
+
+  if (permissions.createConnections) {
+    body.push({
+      "op": "remove",
+      "path": "/systemPermissions",
+      "value": "CREATE_CONNECTION"
+    });
+  }
+
+  const response = await fetch(url + 'session/data/' + dataSource + '/users/' + username + '/permissions?' + new URLSearchParams({ token }), {
+    method: 'PATCH',
+    headers,
+    body: JSON.stringify(body)
+  });
+
   if (response.ok) {
     return { status: 204 };
   }
