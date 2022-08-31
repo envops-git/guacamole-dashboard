@@ -137,19 +137,13 @@ export async function assignPermissionsToGroupPATCH(dataSource, token, permissio
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
-
   if (permissions.administer != true
     && permissions.createUsers != true
     && permissions.createGroups != true
     && permissions.createConnections != true) {
     return { status: 204 };
   }
-
-  let body = [{
-    "op": "add",
-    "path": "/connectionPermissions/" + groupName,
-    "value": "READ"
-  }]
+  let body = [];
 
   if (permissions.administer) {
     body.push({
@@ -182,7 +176,6 @@ export async function assignPermissionsToGroupPATCH(dataSource, token, permissio
       "value": "CREATE_CONNECTION"
     });
   }
-
 
   const response = await fetch(url + 'session/data/' + dataSource + '/userGroups/' + groupName + '/permissions?' + new URLSearchParams({ token }), {
     method: 'PATCH',
@@ -214,12 +207,7 @@ export async function revokePermissionsFromGroupPATCH(dataSource, token, permiss
     && permissions.createConnections != true) {
     return { status: 204 };
   }
-
-  let body = [{
-    "op": "remove",
-    "path": "/connectionPermissions/" + groupName,
-    "value": "READ"
-  }]
+  let body = [];
 
   if (permissions.administer) {
     body.push({
@@ -252,7 +240,6 @@ export async function revokePermissionsFromGroupPATCH(dataSource, token, permiss
       "value": "CREATE_CONNECTION"
     });
   }
-
 
   const response = await fetch(url + 'session/data/' + dataSource + '/userGroups/' + groupName + '/permissions?' + new URLSearchParams({ token }), {
     method: 'PATCH',
@@ -336,7 +323,7 @@ export async function groupDELETE(dataSource, token, groupName) {
   });
 
   if (response.ok) {
-    return { status: 204, data: await response.json() };
+    return { status: 204 };
   }
 
   if (response.status == 500) {

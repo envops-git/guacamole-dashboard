@@ -108,14 +108,15 @@
 		let fileInput = document.getElementById('fileUploadInput');
 		fileInput.value = '';
 		fileInput.type = '';
-		fileInput.type = 'file';
+		fileInput.type = 'file';		
 
-		const STREAM_BLOB_SIZE = 2048;
+		const STREAM_BLOB_SIZE = 4096;
 		const fileUpload = {};
 		const reader = new FileReader();
 
 		reader.onloadend = function fileContentsLoaded() {
-			const stream = client.createFileStream(file.type, file.name);
+			const stream = fileSystem.createOutputStream(file.type ,'/Uploads/' + file.name );
+			// const stream = client.createFileStream(file.type, file.name);
 			const bytes = new Uint8Array(reader.result);
 
 			let offset = 0;
@@ -240,7 +241,7 @@
 					Download files
 				</p>
 				<p class="font-semibold text-[14px] text-gray-700 select-none w-full text-center">
-					Files from remote host's downloads folder will be available here
+					Files from remote host's Downloads folder will be available here
 				</p>
 				<div class='border-2 w-full h-full overflow-y-auto p-0'>
 				{#each remoteFiles as fileName }
@@ -264,6 +265,9 @@
 				<p class="font-semibold text-[15px] text-gray-900 select-none w-full text-center">
 					Upload files
 				</p>
+				<p class="font-semibold text-[14px] text-gray-700 select-none w-full text-center">
+					Uploaded files will be available on remote host's Uploads folder
+				</p>
 				<label id="fileInputLabel" for="fileUploadInput">
 					<div
 						class="border-4 w-full h-full flex justify-center items-center bg-gray-50 rounded-md px-2 border-gray-200 border-dashed"
@@ -278,7 +282,7 @@
 						class="w-[100%] hover:cursor-pointer"
 					/>
 				</label>
-				<div class="w-full h-full overflow-y-auto">
+				<div class="w-full h-full overflow-y-auto border-2">
 					{#if $uploadsInProgress.length}
 						{#each $uploadsInProgress as upload}
 							<div class="h-[30px] w-full p-1 flex gap-3">

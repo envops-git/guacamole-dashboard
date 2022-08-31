@@ -3,7 +3,7 @@
 	import Navbar from '$lib/components/navbar.svelte';
 </script>
 
-<div class="w-full h-full">
+<div class="w-full h-full min-w-[700px]">
 	<Navbar />
 	<div class="w-full h-full">
 		<slot />
