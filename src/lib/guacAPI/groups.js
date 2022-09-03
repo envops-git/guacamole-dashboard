@@ -97,7 +97,7 @@ export async function assignUserToGroupPATCH(dataSource, token, username, groupN
 
   const pathArr = groupName.split('/');
 
-  const pathStr = '/';
+  let pathStr = '/';
 
   pathArr.forEach((segment, i) => {
     if (i != pathArr.length - 1) {

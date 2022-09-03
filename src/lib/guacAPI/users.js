@@ -213,7 +213,7 @@ export async function assignUserToUserGroupPATCH(dataSource, token, username, us
 
   const pathArr = userGroup.split('/');
 
-  const pathStr = '/';
+  let pathStr = '/';
 
   pathArr.forEach((segment, i) => {
     if (i != pathArr.length - 1) {
@@ -253,7 +253,7 @@ export async function revokeUserFromUserGroupPATCH(dataSource, token, username, 
 
   const pathArr = userGroup.split('/');
 
-  const pathStr = '/';
+  let pathStr = '/';
 
   pathArr.forEach((segment, i) => {
     if (i != pathArr.length - 1) {
